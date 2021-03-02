@@ -7,7 +7,7 @@ const Navbar: React.FC = () => {
     <div className="w-full bg-gray-100 dark:bg-gray-900 dark:text-white">
       <div className="flex items-center justify-between py-4 mx-auto px-14 max-w-7xl">
         <div className="flex space-x-9 justify-left">
-          <div className="font-sans text-xl font-bold tracking-widest uppercase">
+          <div className="font-sans text-2xl font-bold tracking-widest uppercase">
             RAWG
           </div>
           <Searchbar />

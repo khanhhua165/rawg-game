@@ -1,7 +1,7 @@
-import React, { Dispatch } from "react";
+import React from "react";
 import Switch from "react-switch";
 import { connect, ConnectedProps } from "react-redux";
-import { AppAction, AppState } from "../reducers/AppReducer";
+import { AppState } from "../reducers/AppReducer";
 import { switchUI } from "../actions/AppActions";
 
 const mapStateToProps = (state: AppState) => {
@@ -10,9 +10,7 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<AppAction>) => {
-  return { switchMode: () => dispatch(switchUI()) };
-};
+const mapDispatchToProps = { switchUI };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -21,7 +19,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 const UISwitch: React.FC<PropsFromRedux> = (props) => {
   return (
     <Switch
-      onChange={props.switchMode}
+      onChange={props.switchUI}
       checked={props.isLightMode}
       onColor="#E5E7EB"
       offColor="#DB2777"
