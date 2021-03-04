@@ -1,6 +1,8 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { connect, ConnectedProps } from "react-redux";
+import { Route, Switch } from "react-router-dom";
+import Games from "./components/Games";
 import Layout from "./components/Layout";
 import { AppState } from "./reducers/AppReducer";
 
@@ -22,6 +24,9 @@ const App: React.FC<PropsFromRedux> = (props) => {
         <style>{`body { background-color: ${backgroundColor}; }`}</style>
       </Helmet>
       <Layout />
+      <Switch>
+        <Route path="/" component={Games} />
+      </Switch>
     </div>
   );
 };

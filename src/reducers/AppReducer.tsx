@@ -1,4 +1,4 @@
-import * as ActionTypes from "../constants/ActionTypes";
+import * as actionTypes from "../constants/ActionTypes";
 export interface AppAction {
   type: string;
 }
@@ -11,13 +11,13 @@ const initialState = {
   isLightMode: true,
 };
 
-const reducer = (state = initialState, action: AppAction) => {
+const appReducer = (state = initialState, action: AppAction) => {
   switch (action.type) {
-    case ActionTypes.SWITCH_MODE:
+    case actionTypes.SWITCH_MODE:
       const currentMode = !state.isLightMode;
       return { isLightMode: currentMode };
     default:
       return state;
   }
 };
-export default reducer;
+export default appReducer;
