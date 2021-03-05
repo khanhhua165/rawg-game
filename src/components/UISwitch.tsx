@@ -1,12 +1,12 @@
 import React from "react";
 import Switch from "react-switch";
 import { connect, ConnectedProps } from "react-redux";
-import { AppState } from "../reducers/AppReducer";
 import { switchUI } from "../actions/AppActions";
+import { RootState } from "../store";
 
-const mapStateToProps = (state: AppState) => {
+const mapStateToProps = (state: RootState) => {
   return {
-    isLightMode: state.isLightMode,
+    isLightMode: state.app.isLightMode,
   };
 };
 

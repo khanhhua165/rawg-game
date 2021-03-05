@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { connect, ConnectedProps } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Games from "./components/Games";
 import Layout from "./components/Layout";
-import { AppState } from "./reducers/AppReducer";
+import { RootState } from "./store";
 
-const mapStateToProps = (state: AppState) => {
+const mapStateToProps = (state: RootState) => {
   return {
-    isLightMode: state.isLightMode,
+    isLightMode: state.app.isLightMode,
   };
 };
 type PropsFromRedux = ConnectedProps<typeof connector>;
@@ -16,6 +16,10 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 const connector = connect(mapStateToProps);
 
 const App: React.FC<PropsFromRedux> = (props) => {
+  useEffect(() => {
+    const fetchGenres = async () => {};
+    fetchGenres();
+  }, []);
   const darkMode = props.isLightMode ? "" : "dark";
   const backgroundColor = props.isLightMode ? "#F9FAFB" : "#111827";
   return (
@@ -25,7 +29,9 @@ const App: React.FC<PropsFromRedux> = (props) => {
       </Helmet>
       <Layout />
       <Switch>
-        <Route path="/" component={Games} />
+        <Redirect from="/" to="/games?genre=action" exact />
+        <Redirect from="/games" to="/games?genre=action" exact />
+        <Route path="/games" component={Games} />
       </Switch>
     </div>
   );

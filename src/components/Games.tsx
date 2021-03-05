@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 const Games: React.FC = () => {
-  useEffect();
   return <div className=""></div>;
 };
 
