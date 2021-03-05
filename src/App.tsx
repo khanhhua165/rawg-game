@@ -5,6 +5,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import Games from "./components/Games";
 import Layout from "./components/Layout";
 import { RootState } from "./store";
+import { fetchApi } from "./utils/api";
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -16,10 +17,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 const connector = connect(mapStateToProps);
 
 const App: React.FC<PropsFromRedux> = (props) => {
-  useEffect(() => {
-    const fetchGenres = async () => {};
-    fetchGenres();
-  }, []);
+  useEffect(() => {}, []);
   const darkMode = props.isLightMode ? "" : "dark";
   const backgroundColor = props.isLightMode ? "#F9FAFB" : "#111827";
   return (

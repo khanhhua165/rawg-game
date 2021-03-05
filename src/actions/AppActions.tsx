@@ -1,5 +1,4 @@
-import { Action, ActionCreator } from "redux";
 import { SWITCH_MODE } from "../constants/ActionTypes";
-export const switchUI: ActionCreator<Action<string>> = () => ({
+export const switchUI = () => ({
   type: SWITCH_MODE,
 });

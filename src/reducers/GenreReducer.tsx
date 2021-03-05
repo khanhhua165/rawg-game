@@ -1,9 +1,19 @@
 import * as actionTypes from "../constants/ActionTypes";
 
-interface GenreType {
+interface GenreGames {
+  id: number;
+  slug: string;
+  name: string;
+  added: number;
+}
+export interface GenreType {
   id: number;
   name: string;
   slug: string;
+  games_count: number;
+  image_background: string;
+  games: GenreGames[];
+  following: boolean | null;
 }
 
 export interface GenreState {
