@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
+import { NavLink } from "react-router-dom";
 import { fetchAllGenres } from "../actions/GenreActions";
 import { getGenre, getLoading } from "../selectors/GenreSelectors";
 import { RootState } from "../store";
@@ -33,20 +34,15 @@ const Header: React.FC<PropsFromRedux> = ({
   }
   const genreList = genres.map((genre) => {
     return (
-      <div
-        className="p-2 bg-gray-300 rounded-2xl hover:bg-pink-600 dark:text-white"
-        key={genre.id}
-      >
-        {genre.name}
-      </div>
+      <NavLink key={genre.id} to={`/games?genre=${genre.slug}`}>
+        <div className="p-2 mt-2 mr-4 bg-gray-300 rounded-2xl hover:bg-pink-600 dark:bg-gray-700 hover:text-gray-50 dark:hover:bg-pink-600 dark:text-white">
+          {genre.name}
+        </div>
+      </NavLink>
     );
   });
 
-  return (
-    <div className="flex flex-wrap items-center space-x-5 space-y-3">
-      {genreList}
-    </div>
-  );
+  return <div className="flex flex-wrap items-center">{genreList}</div>;
 };
 
 export default connector(Header);

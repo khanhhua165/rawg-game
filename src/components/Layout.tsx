@@ -6,9 +6,11 @@ import Navbar from "./Navbar";
 
 const Layout: React.FC = () => {
   return (
-    <div className="">
+    <div className="flex flex-col">
       <Navbar />
-      <Header />
+      <div className="px-10 mt-4">
+        <Header />
+      </div>
       {/* <Switch>
         <Redirect from="/" to="/games?genre=action" exact />
         <Redirect from="/games" to="/games?genre=action" exact />
