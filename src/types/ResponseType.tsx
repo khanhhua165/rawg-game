@@ -1,7 +1,7 @@
 import { GenreType } from "../reducers/GenreReducer";
 import { GameType } from "./GameType";
 
-interface GenreResponse {
+export interface GenreResponse {
   count: number;
   next: string | null;
   previous: string | null;
@@ -12,12 +12,10 @@ interface GenreResponse {
   seo_h1: string;
 }
 
-interface GameResponse {
+export interface GameResponse {
   count: number;
   next: string;
   previous: string | null;
   results: GameType[];
   user_platforms: boolean;
 }
-
-export type AllResponse = GenreResponse | GameResponse;

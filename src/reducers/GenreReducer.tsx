@@ -1,3 +1,4 @@
+import { GenreData } from "../actions/GenreActions";
 import * as actionTypes from "../constants/ActionTypes";
 
 interface GenreGames {
@@ -18,7 +19,7 @@ export interface GenreType {
 
 export interface GenreState {
   loading: boolean;
-  genres: GenreType[];
+  genres: GenreData[];
 }
 
 const initialState: GenreState = {
@@ -28,7 +29,7 @@ const initialState: GenreState = {
 
 const genreReducer = (
   state = initialState,
-  action: { type: string; payload?: GenreType[] }
+  action: { type: string; payload: GenreData[] | undefined }
 ) => {
   switch (action.type) {
     case actionTypes.FETCH_GENRES:
