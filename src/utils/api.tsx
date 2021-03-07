@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_KEY, API_URL } from "../constants/api";
-import { GameResponse, GenreResponse } from "../types/ResponseType";
+import { ResponseType } from "../types/ResponseType";
 
 const instance = axios.create({
   baseURL: API_URL,
@@ -20,14 +20,7 @@ instance.interceptors.response.use(
 type EndPoint = "/games" | "/genres";
 
 export const fetchApi = async (endpoint: EndPoint, params: object = {}) => {
-  if (endpoint === "/games") {
-    return instance.get<GameResponse>(endpoint, {
-      params: { key: API_KEY, ...params },
-    });
-  }
-  if (endpoint === "/genres") {
-    return instance.get<GenreResponse>(endpoint, {
-      params: { key: API_KEY, ...params },
-    });
-  }
+  return instance.get<ResponseType>(endpoint, {
+    params: { key: API_KEY, ...params },
+  });
 };

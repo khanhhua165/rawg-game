@@ -11,7 +11,6 @@ export interface GenreResponse {
   seo_description: string;
   seo_h1: string;
 }
-
 export interface GameResponse {
   count: number;
   next: string;
@@ -19,3 +18,9 @@ export interface GameResponse {
   results: GameType[];
   user_platforms: boolean;
 }
+
+export interface InvalidResponse {
+  detail: string;
+}
+
+export type ResponseType = GenreResponse | GameResponse | InvalidResponse;

@@ -1,5 +1,5 @@
 import { FETCH_GENRES, FETCH_GENRES_SUCCESS } from "../constants/ActionTypes";
-import { GenreType } from "../reducers/GenreReducer";
+import { GenreResponse, InvalidResponse } from "../types/ResponseType";
 import { AppThunk } from "../types/ThunkType";
 import { fetchApi } from "../utils/api";
 
@@ -20,14 +20,15 @@ const storeGenres = (genreData: GenreData[]) => ({
 export const fetchAllGenres = (): AppThunk => {
   return async (dispatch) => {
     dispatch(startFetchGenres());
-    console.log("heheheh");
-    const genreData = (await fetchApi("/genres"))!.data.results as GenreType[];
-    dispatch(
-      storeGenres(
-        genreData.map((genre) => {
-          return { id: genre.id, name: genre.name, slug: genre.slug };
-        })
-      )
-    );
+    const genreData = (await fetchApi("/genres")).data;
+    if (!(genreData as InvalidResponse).detail) {
+      dispatch(
+        storeGenres(
+          (genreData as GenreResponse).results.map((genre) => {
+            return { id: genre.id, name: genre.name, slug: genre.slug };
+          })
+        )
+      );
+    }
   };
 };

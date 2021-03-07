@@ -18,23 +18,22 @@ interface GamesState {
   games: GamesContainer;
 }
 
-const initialState: GamesState = { loading: false, games: {} };
+const initialState = { loading: false, games: {} };
 
-const gamesReducer = (
-  state = initialState,
+const gamesByGenreReducer = (
+  state: GamesState = initialState,
   action: { type: string; payload?: GamePayload }
-) => {
+): GamesState => {
   switch (action.type) {
     case actionTypes.FETCH_GAMES:
       return { ...state, loading: true };
     case actionTypes.FETCH_GAMES_SUCCESS:
       const updatedGames = [
         ...state.games[action.payload!.genre].games,
-        action.payload!.gamesLoaded,
+        ...action.payload!.gamesLoaded,
       ];
       return {
-        ...state,
-        loading: true,
+        loading: false,
         games: {
           ...state.games,
           [action.payload!.genre]: {
@@ -47,4 +46,4 @@ const gamesReducer = (
       return state;
   }
 };
-export default gamesReducer;
+export default gamesByGenreReducer;

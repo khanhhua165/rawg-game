@@ -21,7 +21,6 @@ const Header: React.FC<PropsFromRedux> = ({
   fetchAllGenres,
 }) => {
   useEffect(() => {
-    console.log("chay chua");
     fetchAllGenres();
   }, [fetchAllGenres]);
   if (loading) {
@@ -34,7 +33,7 @@ const Header: React.FC<PropsFromRedux> = ({
   }
   const genreList = genres.map((genre) => {
     return (
-      <NavLink key={genre.id} to={`/games?genre=${genre.slug}`}>
+      <NavLink exact={true} key={genre.id} to={`/games?genre=${genre.slug}`}>
         <div className="p-2 mt-2 mr-4 text-gray-900 bg-gray-300 rounded-2xl hover:bg-pink-600 dark:bg-gray-700 hover:text-gray-50 dark:hover:bg-pink-600 dark:text-white">
           {genre.name}
         </div>

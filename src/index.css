@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .active {
-  @apply text-pink-600;
+  @apply bg-yellow-400;
 }

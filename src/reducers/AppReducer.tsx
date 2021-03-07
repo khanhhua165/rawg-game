@@ -11,7 +11,7 @@ const initialState = {
   isLightMode: toBoolean(localStorage.getItem("isLightMode")),
 };
 
-const appReducer = (state = initialState, action: AppAction) => {
+const appReducer = (state: AppState = initialState, action: AppAction) => {
   switch (action.type) {
     case actionTypes.SWITCH_MODE:
       const currentMode = !state.isLightMode;

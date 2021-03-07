@@ -22,13 +22,13 @@ export interface GenreState {
   genres: GenreData[];
 }
 
-const initialState: GenreState = {
+const initialState = {
   loading: true,
   genres: [],
 };
 
 const genreReducer = (
-  state = initialState,
+  state: GenreState = initialState,
   action: { type: string; payload: GenreData[] | undefined }
 ) => {
   switch (action.type) {
