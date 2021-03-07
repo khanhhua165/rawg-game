@@ -2,6 +2,7 @@
 export const SWITCH_MODE = "SWITCH_MODE";
 
 //* Game Actions
+export const CHANGE_GAME_GENRE = "CHANGE_GAME_GENRE";
 export const FETCH_GAMES = "FETCH_GAMES";
 export const FETCH_GAMES_SUCCESS = "FETCH_GAMES_SUCCESS";
 
