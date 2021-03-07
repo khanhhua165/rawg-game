@@ -1,32 +1,24 @@
 import * as actionTypes from "../constants/ActionTypes";
 import { GameType } from "../types/GameType";
-interface GamesWithGenre {
-  genre: string;
+
+interface GamesLoaded {
   nextPage: number | null;
   games: GameType[];
 }
-
-export interface GameGenreState {
-  loading: boolean;
-  currentGenre: string;
-  games: GamesWithGenre[];
+interface GamesContainer {
+  [genre: string]: GamesLoaded;
 }
-
 interface GamePayload {
+  genre: string;
   nextPage: number | null;
   gamesLoaded: GameType[];
 }
+interface GamesState {
+  loading: boolean;
+  games: GamesContainer;
+}
 
-const initialState: GameGenreState = {
-  loading: true,
-  currentGenre: "",
-  games: [],
-};
-
-const gamesByGenreReducer = (
-  state = initialState,
-  action: { type: string; payload?: GamePayload }
-) => {};
+const initialState: GamesState = { loading: false, games: {} };
 
 const gamesReducer = (
   state = initialState,
@@ -35,13 +27,22 @@ const gamesReducer = (
   switch (action.type) {
     case actionTypes.FETCH_GAMES:
       return { ...state, loading: true };
-    case actionTypes.CHANGE_GAME_GENRE:
-      return { ...state, genre: action.payload!.genre };
     case actionTypes.FETCH_GAMES_SUCCESS:
-      const nextPage = action.payload!.nextPage;
-      const currentGameStored = [...state.games];
-
-      return { ...state, loading: false, nextPage, games: currentGameStored };
+      const updatedGames = [
+        ...state.games[action.payload!.genre].games,
+        action.payload!.gamesLoaded,
+      ];
+      return {
+        ...state,
+        loading: true,
+        games: {
+          ...state.games,
+          [action.payload!.genre]: {
+            nextPage: action.payload!.nextPage,
+            games: updatedGames,
+          },
+        },
+      };
     default:
       return state;
   }
