@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { GenreData } from "../actions/GenreActions";
 
-const Header: React.FC<{ genres: GenreData[] }> = ({ genres }) => {
+const GenreNav: React.FC<{ genres: GenreData[] }> = ({ genres }) => {
   const genreList = genres.map((genre) => {
     return (
       <NavLink
@@ -13,8 +13,6 @@ const Header: React.FC<{ genres: GenreData[] }> = ({ genres }) => {
           search: `?genre=${genre.slug}`,
         }}
         isActive={(match, location) => {
-          console.log(location);
-          console.log(match);
           return (
             location.pathname + location.search === `/games?genre=${genre.slug}`
           );
@@ -28,4 +26,4 @@ const Header: React.FC<{ genres: GenreData[] }> = ({ genres }) => {
   return <div className="flex flex-wrap items-center">{genreList}</div>;
 };
 
-export default Header;
+export default GenreNav;

@@ -4,10 +4,9 @@ import { getGenre, getLoading } from "../selectors/GenreSelectors";
 import { RootState } from "../store";
 import { fetchAllGenres } from "../actions/GenreActions";
 import Spinner from "../svgs/Spinner";
-import Header from "./Header";
+import GenreNav from "./GenreNav";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Games from "./Games";
-import Trash from "./Trash";
 
 const mapStateToProps = (state: RootState) => ({
   loading: getLoading(state),
@@ -37,14 +36,13 @@ const Body: React.FC<PropsFromRedux> = ({
     );
   }
   return (
-    <div className="flex flex-col">
-      <Header genres={genres} />
+    <div className="flex flex-col w-11/12 mx-auto">
+      <GenreNav genres={genres} />
       <Switch>
         <Route exact path="/">
           <Redirect to="/games?genre=action" />
         </Route>
         <Route path="/games" component={Games} />
-        <Route path="*" component={Trash} />
       </Switch>
     </div>
   );
