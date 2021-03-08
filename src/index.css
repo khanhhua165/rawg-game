@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.active {
-  @apply bg-yellow-400;
+.active,
+.dark .active {
+  @apply bg-pink-600 text-gray-50;
 }

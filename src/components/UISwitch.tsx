@@ -20,7 +20,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const UISwitch: React.FC<PropsFromRedux> = (props) => {
-  console.log(props.isLightMode);
   return (
     <Switch
       onChange={props.switchUI}

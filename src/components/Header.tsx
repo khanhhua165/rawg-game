@@ -1,42 +1,26 @@
-import React, { useEffect } from "react";
-import { connect, ConnectedProps } from "react-redux";
+import React from "react";
 import { NavLink } from "react-router-dom";
-import { fetchAllGenres } from "../actions/GenreActions";
-import { getGenre, getLoading } from "../selectors/GenreSelectors";
-import { RootState } from "../store";
-import Spinner from "../svgs/Spinner";
+import { GenreData } from "../actions/GenreActions";
 
-const mapStateToProps = (state: RootState) => ({
-  loading: getLoading(state),
-  genres: getGenre(state),
-});
-
-const mapDispatchToProps = { fetchAllGenres };
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-const Header: React.FC<PropsFromRedux> = ({
-  loading,
-  genres,
-  fetchAllGenres,
-}) => {
-  useEffect(() => {
-    fetchAllGenres();
-  }, [fetchAllGenres]);
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center w-full mt-28">
-        <Spinner classItems="w-24 mx-auto animate-spin" />
-        <div className="text-xl italic font-semibold">Loading...</div>
-      </div>
-    );
-  }
+const Header: React.FC<{ genres: GenreData[] }> = ({ genres }) => {
   const genreList = genres.map((genre) => {
     return (
-      <NavLink exact={true} key={genre.id} to={`/games?genre=${genre.slug}`}>
-        <div className="p-2 mt-2 mr-4 text-gray-900 bg-gray-300 rounded-2xl hover:bg-pink-600 dark:bg-gray-700 hover:text-gray-50 dark:hover:bg-pink-600 dark:text-white">
-          {genre.name}
-        </div>
+      <NavLink
+        className="p-2 mt-2 mr-4 text-gray-900 bg-gray-300 rounded-2xl hover:bg-pink-600 dark:bg-gray-700 hover:text-gray-50 dark:hover:bg-pink-600 dark:text-white"
+        key={genre.id}
+        to={{
+          pathname: "/games",
+          search: `?genre=${genre.slug}`,
+        }}
+        isActive={(match, location) => {
+          console.log(location);
+          console.log(match);
+          return (
+            location.pathname + location.search === `/games?genre=${genre.slug}`
+          );
+        }}
+      >
+        {genre.name}
       </NavLink>
     );
   });
@@ -44,4 +28,4 @@ const Header: React.FC<PropsFromRedux> = ({
   return <div className="flex flex-wrap items-center">{genreList}</div>;
 };
 
-export default connector(Header);
+export default Header;

@@ -1,16 +1,12 @@
 import React from "react";
-import GamesByGenre from "./GamesByGenre";
-import Header from "./Header";
+import Body from "./Body";
 import Navbar from "./Navbar";
 
 const Layout: React.FC = () => {
   return (
     <div className="flex flex-col">
       <Navbar />
-      <div className="px-10 mt-4">
-        <Header />
-      </div>
-      <GamesByGenre />
+      <Body />
     </div>
   );
 };
