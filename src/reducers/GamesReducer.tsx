@@ -37,11 +37,20 @@ const gamesReducer = (
   switch (action.type) {
     case actionTypes.FETCH_GAMES:
       return { ...state, loading: true };
+    case actionTypes.REVERSE_FETCH_GAMES:
+      return { ...state, loading: false };
     case actionTypes.FETCH_GAMES_GENRE_SUCCESS:
-      const updatedGames = [
-        ...state.gamesByGenre[(action.payload as GameGenrePayload).genre].games,
-        ...(action.payload as GameGenrePayload).gamesLoaded,
-      ];
+      let updatedGames: GameType[] = [];
+      if (!state.gamesByGenre[(action.payload as GameGenrePayload).genre]) {
+        updatedGames = [...(action.payload as GameGenrePayload).gamesLoaded];
+      } else {
+        updatedGames = [
+          ...state.gamesByGenre[(action.payload as GameGenrePayload).genre]
+            .games,
+          ...(action.payload as GameGenrePayload).gamesLoaded,
+        ];
+      }
+
       return {
         loading: false,
         gamesByGenre: {

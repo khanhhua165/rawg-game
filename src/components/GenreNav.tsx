@@ -1,8 +1,22 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { GenreData } from "../actions/GenreActions";
+import { changeType } from "../actions/TypeActions";
+import { connect, ConnectedProps } from "react-redux";
 
-const GenreNav: React.FC<{ genres: GenreData[] }> = ({ genres }) => {
+const mapDispatchToProps = { changeType };
+
+const connector = connect(null, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const GenreNav: React.FC<{ genres: GenreData[] } & PropsFromRedux> = ({
+  genres,
+  changeType,
+}) => {
+  const handleClick = (slug: string) => {
+    changeType("genre", slug);
+  };
   const genreList = genres.map((genre) => {
     return (
       <NavLink
@@ -17,6 +31,7 @@ const GenreNav: React.FC<{ genres: GenreData[] }> = ({ genres }) => {
             location.pathname + location.search === `/games?genre=${genre.slug}`
           );
         }}
+        onClick={() => handleClick(genre.slug)}
       >
         {genre.name}
       </NavLink>
@@ -26,4 +41,4 @@ const GenreNav: React.FC<{ genres: GenreData[] }> = ({ genres }) => {
   return <div className="flex flex-wrap items-center">{genreList}</div>;
 };
 
-export default GenreNav;
+export default connector(GenreNav);

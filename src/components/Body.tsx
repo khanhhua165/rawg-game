@@ -42,7 +42,7 @@ const Body: React.FC<PropsFromRedux> = ({
         <Route exact path="/">
           <Redirect to="/games?genre=action" />
         </Route>
-        <Route path="/games" component={Games} />
+        <Route path="/games" render={(props) => <Games {...props} />} />
       </Switch>
     </div>
   );

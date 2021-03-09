@@ -2,14 +2,19 @@ import {
   FETCH_GAMES,
   FETCH_GAMES_GENRE_SUCCESS,
   FETCH_GAMES_SEARCH_SUCCESS,
+  REVERSE_FETCH_GAMES,
 } from "../constants/ActionTypes";
 import { GameType } from "../types/GameType";
 import { GameResponse, InvalidResponse } from "../types/ResponseType";
 import { AppThunk } from "../types/ThunkType";
 import { fetchApi } from "../utils/api";
 
-const startFetchGames = () => ({
+export const startFetchGames = () => ({
   type: FETCH_GAMES,
+});
+
+export const stopFetchGames = () => ({
+  type: REVERSE_FETCH_GAMES,
 });
 
 const storeGamesGenre = (
@@ -50,7 +55,7 @@ const fetchGames = (
   page: number = 1
 ): AppThunk => {
   return async (dispatch) => {
-    dispatch(startFetchGames);
+    dispatch(startFetchGames());
     if (type === "genre") {
       const params = { genres: key, page };
       const gamesData = (await fetchApi("/games", params)).data;
@@ -79,6 +84,8 @@ export const getUnfetchedGamesGenre = (genre: string): AppThunk => {
     const state = getState();
     if (!state.games.gamesByGenre[genre]) {
       dispatch(fetchGames("genre", genre));
+    } else {
+      dispatch(stopFetchGames());
     }
   };
 };
@@ -88,6 +95,8 @@ export const getUnfetchedGamesSearch = (searchString: string): AppThunk => {
     const state = getState();
     if (!state.games.gamesBySearch[searchString]) {
       dispatch(fetchGames("search", searchString));
+    } else {
+      dispatch(stopFetchGames());
     }
   };
 };
