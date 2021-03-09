@@ -1,4 +1,8 @@
-import { FETCH_GAMES, FETCH_GENRES_SUCCESS } from "../constants/ActionTypes";
+import {
+  FETCH_GAMES,
+  FETCH_GAMES_GENRE_SUCCESS,
+  FETCH_GAMES_SEARCH_SUCCESS,
+} from "../constants/ActionTypes";
 import { GameType } from "../types/GameType";
 import { GameResponse, InvalidResponse } from "../types/ResponseType";
 import { AppThunk } from "../types/ThunkType";
@@ -8,13 +12,13 @@ const startFetchGames = () => ({
   type: FETCH_GAMES,
 });
 
-const storeGames = (
+const storeGamesGenre = (
   genre: string,
   nextPage: number | null,
   gamesLoaded: GameType[]
 ) => {
   return {
-    type: FETCH_GENRES_SUCCESS,
+    type: FETCH_GAMES_GENRE_SUCCESS,
     payload: {
       genre,
       nextPage,
@@ -23,27 +27,67 @@ const storeGames = (
   };
 };
 
-export const fetchGames = (genre: string, page: number = 1): AppThunk => {
+const storeGamesSearch = (
+  searchString: string,
+  nextPage: number | null,
+  gamesLoaded: GameType[]
+) => {
+  return {
+    type: FETCH_GAMES_SEARCH_SUCCESS,
+    payload: {
+      searchString,
+      nextPage,
+      gamesLoaded,
+    },
+  };
+};
+
+type FetchType = "genre" | "search";
+
+const fetchGames = (
+  type: FetchType,
+  key: string,
+  page: number = 1
+): AppThunk => {
   return async (dispatch) => {
     dispatch(startFetchGames);
-    if (genre) {
-      const params = { genre, page };
+    if (type === "genre") {
+      const params = { genres: key, page };
       const gamesData = (await fetchApi("/games", params)).data;
       if (!(gamesData as InvalidResponse).detail) {
         const nextPage = page + 1;
         dispatch(
-          storeGames(genre, nextPage, (gamesData as GameResponse).results)
+          storeGamesGenre(key, nextPage, (gamesData as GameResponse).results)
+        );
+      }
+    }
+    if (type === "search") {
+      const params = { search: key, page };
+      const gamesData = (await fetchApi("/games", params)).data;
+      if (!(gamesData as InvalidResponse).detail) {
+        const nextPage = page + 1;
+        dispatch(
+          storeGamesSearch(key, nextPage, (gamesData as GameResponse).results)
         );
       }
     }
   };
 };
 
-export const getUnfetchedGenres = (genre: string): AppThunk => {
+export const getUnfetchedGamesGenre = (genre: string): AppThunk => {
   return (dispatch, getState) => {
     const state = getState();
-    if (!state.gamesByGenre.games[genre]) {
-      dispatch(fetchGames(genre));
+    if (!state.games.gamesByGenre[genre]) {
+      dispatch(fetchGames("genre", genre));
+    }
+  };
+};
+
+export const getUnfetchedGamesSearch = (searchString: string): AppThunk => {
+  return (dispatch, getState) => {
+    const state = getState();
+    if (!state.games.gamesBySearch[searchString]) {
+      dispatch(fetchGames("search", searchString));
     }
   };
 };

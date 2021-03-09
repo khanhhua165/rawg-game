@@ -3,7 +3,8 @@ export const SWITCH_MODE = "SWITCH_MODE";
 
 //* Game Actions
 export const FETCH_GAMES = "FETCH_GAMES";
-export const FETCH_GAMES_SUCCESS = "FETCH_GAMES_SUCCESS";
+export const FETCH_GAMES_GENRE_SUCCESS = "FETCH_GAMES_GENRE_SUCCESS";
+export const FETCH_GAMES_SEARCH_SUCCESS = "FETCH_GAMES_SEARCH_SUCCESS";
 
 //* Genre Actions
 export const FETCH_GENRES = "FETCH_GENRES";
