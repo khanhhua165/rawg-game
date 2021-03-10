@@ -30,13 +30,14 @@ const Games: React.FC<RouteComponentProps & PropsFromRedux> = ({
 }) => {
   const query = useQuery();
   useEffect(() => {
+    console.log("haha");
     if (type === "genre") {
       getUnfetchedGamesGenre(query.get("genre")!);
     }
     if (type === "search") {
       getUnfetchedGamesSearch(query.get("search")!);
     }
-  }, [getUnfetchedGamesGenre, getUnfetchedGamesSearch, query, type]);
+  }, [getUnfetchedGamesGenre, getUnfetchedGamesSearch, type, query]);
   if (loading) {
     return <div className="text-pink-400 text-7xl">LOADING</div>;
   }

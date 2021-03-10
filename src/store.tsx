@@ -13,11 +13,13 @@ const rootReducer = combineReducers({
   type: typeReducer,
 });
 
+const composeEnhancers = composeWithDevTools({ trace: true });
+
 export type RootState = ReturnType<typeof rootReducer>;
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(thunk))
+  composeEnhancers(applyMiddleware(thunk))
 );
 
 export default store;

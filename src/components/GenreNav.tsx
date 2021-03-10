@@ -20,7 +20,7 @@ const GenreNav: React.FC<{ genres: GenreData[] } & PropsFromRedux> = ({
   const genreList = genres.map((genre) => {
     return (
       <NavLink
-        className="p-2 mt-2 mr-4 text-gray-900 bg-gray-300 rounded-2xl hover:bg-pink-600 dark:bg-gray-700 hover:text-gray-50 dark:hover:bg-pink-600 dark:text-white"
+        className="p-2 mt-2 mr-4 text-gray-900 transition duration-200 bg-gray-300 rounded-2xl hover:bg-pink-600 dark:bg-gray-700 hover:text-gray-50 dark:hover:bg-pink-600 dark:text-white"
         key={genre.id}
         to={{
           pathname: "/games",
