@@ -39,17 +39,7 @@ const gamesReducer = (
         ...state,
         [queryType]: {
           ...state[queryType],
-          [queryString]: { ...state[queryType][queryString], loading: true },
-        },
-      };
-    }
-    case actionTypes.REVERSE_FETCH_GAMES: {
-      const { queryType, queryString } = action.payload as RequestPayload;
-      return {
-        ...state,
-        [queryType]: {
-          ...state[queryType],
-          [queryString]: { ...state[queryType][queryString], loading: false },
+          [queryString]: { ...state[queryType]?.[queryString], loading: true },
         },
       };
     }
@@ -61,7 +51,7 @@ const gamesReducer = (
         nextPage,
         gamesLoaded,
       } = action.payload as GamesPayload;
-      if (!state[queryType] || !state[queryType][queryString]) {
+      if (!state[queryType]?.[queryString]) {
         updatedGames = [...gamesLoaded];
       } else {
         updatedGames = [...state[queryType][queryString].games, ...gamesLoaded];
@@ -72,8 +62,8 @@ const gamesReducer = (
         [queryType]: {
           ...state[queryType],
           [queryString]: {
-            ...state[queryType][queryString],
-            loading: true,
+            ...state[queryType]?.[queryString],
+            loading: false,
             nextPage: nextPage,
             games: updatedGames,
           },

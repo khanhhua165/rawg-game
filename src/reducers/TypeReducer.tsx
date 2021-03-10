@@ -1,7 +1,7 @@
 import * as actionTypes from "../constants/ActionTypes";
 
 interface TypeState {
-  type: "genre" | "search";
+  type: string;
   key: string;
 }
 

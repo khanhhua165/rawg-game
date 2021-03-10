@@ -2,10 +2,7 @@ import React, { useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import useQuery from "../hooks/QueryHook";
-import {
-  getUnfetchedGamesGenre,
-  getUnfetchedGamesSearch,
-} from "../actions/GamesActions";
+import { getUnfetchedGames } from "../actions/GamesActions";
 import { getGames, getLoading } from "../selectors/GamesSelectors";
 import { RootState } from "../store";
 import GamesDisplayed from "./GamesDisplayed";
@@ -17,13 +14,12 @@ const mapStateToProps = (state: RootState) => ({
   games: getGames(state),
 });
 
-const mapDispatchToProps = { getUnfetchedGamesGenre, getUnfetchedGamesSearch };
+const mapDispatchToProps = { getUnfetchedGames };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const Games: React.FC<RouteComponentProps & PropsFromRedux> = ({
-  getUnfetchedGamesGenre,
-  getUnfetchedGamesSearch,
+  getUnfetchedGames
   loading,
   type,
   games,
