@@ -10,3 +10,10 @@ export const toBoolean = (args: BooleanString) => {
       return true;
   }
 };
+
+export type Query = [queryType: string, queryString: string];
+
+export const getQuery = (searchString: string): Query => {
+  const noQuestion = searchString.slice(1);
+  return noQuestion.split("=") as Query;
+};

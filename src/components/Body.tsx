@@ -5,8 +5,9 @@ import { RootState } from "../store";
 import { fetchAllGenres } from "../actions/GenreActions";
 import Spinner from "../svgs/Spinner";
 import GenreNav from "./GenreNav";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import Games from "./Games";
+import { getQuery } from "../utils/helpers";
 
 const mapStateToProps = (state: RootState) => ({
   loading: getLoading(state),
@@ -17,10 +18,11 @@ const mapDispatchToProps = { fetchAllGenres };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-const Body: React.FC<PropsFromRedux> = ({
+const Body: React.FC<PropsFromRedux & RouteComponentProps> = ({
   loading,
   genres,
   fetchAllGenres,
+  location,
 }) => {
   useEffect(() => {
     fetchAllGenres();
@@ -35,15 +37,11 @@ const Body: React.FC<PropsFromRedux> = ({
       </div>
     );
   }
+  const [queryType, queryString] = getQuery(location.search);
   return (
     <div className="flex flex-col w-11/12 mx-auto">
       <GenreNav genres={genres} />
-      <Switch>
-        <Route exact path="/">
-          <Redirect to="/games?genre=action" />
-        </Route>
-        <Route path="/games" render={(props) => <Games {...props} />} />
-      </Switch>
+      <Games queryType={queryType} queryString={queryString} />
     </div>
   );
 };

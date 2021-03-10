@@ -51,7 +51,7 @@ const gamesReducer = (
         nextPage,
         gamesLoaded,
       } = action.payload as GamesPayload;
-      if (!state[queryType]?.[queryString]) {
+      if (!state[queryType]?.[queryString]?.games) {
         updatedGames = [...gamesLoaded];
       } else {
         updatedGames = [...state[queryType][queryString].games, ...gamesLoaded];

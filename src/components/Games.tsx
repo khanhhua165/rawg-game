@@ -1,16 +1,12 @@
 import React, { useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { RouteComponentProps } from "react-router";
-import useQuery from "../hooks/QueryHook";
 import { getUnfetchedGames } from "../actions/GamesActions";
-import { getGames, getLoading } from "../selectors/GamesSelectors";
+import { getGames } from "../selectors/GamesSelectors";
 import { RootState } from "../store";
 import GamesDisplayed from "./GamesDisplayed";
-import { getType } from "../selectors/TypeSelectors";
+import { GameType } from "../types/GameType";
 
 const mapStateToProps = (state: RootState) => ({
-  loading: getLoading(state),
-  type: getType(state),
   games: getGames(state),
 });
 
@@ -18,29 +14,21 @@ const mapDispatchToProps = { getUnfetchedGames };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-const Games: React.FC<RouteComponentProps & PropsFromRedux> = ({
-  getUnfetchedGames
-  loading,
-  type,
-  games,
-}) => {
-  const query = useQuery();
+const Games: React.FC<
+  PropsFromRedux & { queryType: string; queryString: string }
+> = ({ getUnfetchedGames, games, queryType, queryString }) => {
   useEffect(() => {
-    console.log("haha");
-    if (type === "genre") {
-      getUnfetchedGamesGenre(query.get("genre")!);
-    }
-    if (type === "search") {
-      getUnfetchedGamesSearch(query.get("search")!);
-    }
-  }, [getUnfetchedGamesGenre, getUnfetchedGamesSearch, type, query]);
-  if (loading) {
-    return <div className="text-pink-400 text-7xl">LOADING</div>;
-  }
+    getUnfetchedGames(queryType, queryString);
+  }, [getUnfetchedGames, queryString, queryType]);
 
+  let gamesDisplayed: GameType[] = [];
+
+  if (games[queryType]?.[queryString]?.games) {
+    gamesDisplayed = [...games[queryType][queryString].games];
+  }
   return (
     <div className="flex flex-col">
-      <GamesDisplayed games={games!} />
+      <GamesDisplayed games={gamesDisplayed} />
     </div>
   );
 };
