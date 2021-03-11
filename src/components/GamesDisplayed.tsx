@@ -1,6 +1,7 @@
 import React from "react";
 import Spinner from "../svgs/Spinner";
 import { GameType } from "../types/GameType";
+import GameItem from "./GameItem";
 
 const GamesDisplayed: React.FC<{ games: GameType[] }> = ({ games }) => {
   if (games.length === 0) {
@@ -14,11 +15,13 @@ const GamesDisplayed: React.FC<{ games: GameType[] }> = ({ games }) => {
     );
   }
   const result = games.map((game) => (
-    <div key={game.slug} className="text-4xl text-white">
-      {game.name}
-    </div>
+    <GameItem
+      background={game.background_image}
+      name={game.name}
+      slug={game.slug}
+    />
   ));
-  return <div className="flex flex-col">{result}</div>;
+  return <div className="grid grid-cols-4 gap-3 mt-10">{result}</div>;
 };
 
 export default GamesDisplayed;
