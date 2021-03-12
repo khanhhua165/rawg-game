@@ -1,7 +1,8 @@
 import * as actionTypes from "../constants/ActionTypes";
-import { toBoolean } from "../utils/helpers";
+import { getScreenSize, toBoolean } from "../utils/helpers";
 export interface AppAction {
   type: string;
+  payload?: string;
 }
 export interface AppState {
   isLightMode: boolean;
@@ -9,6 +10,7 @@ export interface AppState {
 
 const initialState = {
   isLightMode: toBoolean(localStorage.getItem("isLightMode")),
+  screenSize: getScreenSize(),
 };
 
 const appReducer = (state: AppState = initialState, action: AppAction) => {
@@ -16,7 +18,9 @@ const appReducer = (state: AppState = initialState, action: AppAction) => {
     case actionTypes.SWITCH_MODE:
       const currentMode = !state.isLightMode;
       localStorage.setItem("isLightMode", currentMode.toString());
-      return { isLightMode: currentMode };
+      return { ...state, isLightMode: currentMode };
+    case actionTypes.CHANGE_SCREEN_SIZE:
+      return { ...state, screenSize: action.payload };
     default:
       return state;
   }

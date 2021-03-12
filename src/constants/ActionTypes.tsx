@@ -1,5 +1,6 @@
 //* App Actions
 export const SWITCH_MODE = "SWITCH_MODE";
+export const CHANGE_SCREEN_SIZE = "CHANGE_SCREEN_SIZE";
 
 //* Game Actions
 export const FETCH_GAMES = "FETCH_GAMES";
