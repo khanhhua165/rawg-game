@@ -28,8 +28,8 @@ const UISwitch: React.FC<PropsFromRedux> = (props) => {
       offColor="#DB2777"
       checkedIcon={false}
       uncheckedIcon={false}
-      checkedHandleIcon={<Sun classItems="w-6 h-6" />}
-      uncheckedHandleIcon={<Moon classItems="w-6 h-6 dark:text-black" />}
+      checkedHandleIcon={<Sun classItems="w-5 h-5" />}
+      uncheckedHandleIcon={<Moon classItems="w-5 h-5 dark:text-black" />}
       boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
       height={24}
       width={48}

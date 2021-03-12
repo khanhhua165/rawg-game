@@ -1,9 +1,4 @@
-import {
-  SCREEN_LG,
-  SCREEN_MD,
-  SCREEN_SM,
-  SCREEN_XL,
-} from "../constants/screenSize";
+import { SCREEN_LG, SCREEN_MD, SCREEN_SM } from "../constants/screenSize";
 
 type BooleanString = string | undefined | null;
 
