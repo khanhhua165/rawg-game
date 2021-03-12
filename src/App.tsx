@@ -16,7 +16,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const App: React.FC<PropsFromRedux> = (props) => {
   const darkMode = props.isLightMode ? "" : "dark";
-  const backgroundColor = props.isLightMode ? "#F9FAFB" : "#111827";
+  const backgroundColor = props.isLightMode ? "#F3F4F6" : "#111827";
   return (
     <div className={`font-serif ${darkMode}`}>
       <Helmet>

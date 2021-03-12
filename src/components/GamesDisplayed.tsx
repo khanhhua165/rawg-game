@@ -21,7 +21,11 @@ const GamesDisplayed: React.FC<{ games: GameType[] }> = ({ games }) => {
       slug={game.slug}
     />
   ));
-  return <div className="grid grid-cols-4 gap-3 mt-10">{result}</div>;
+  return (
+    <div className="grid items-start grid-cols-1 gap-3 mt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      {result}
+    </div>
+  );
 };
 
 export default GamesDisplayed;

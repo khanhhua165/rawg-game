@@ -7,7 +7,7 @@ export const toBoolean = (args: BooleanString) => {
     case "true":
       return true;
     default:
-      return true;
+      return false;
   }
 };
 
