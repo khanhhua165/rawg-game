@@ -31,7 +31,7 @@ const GenreDescription: React.FC<
     return (
       <div className="flex flex-col">
         <div
-          className={`mt-4 dark:text-gray-50 line-clamp-5 lg:line-clamp-none text-lg ${
+          className={`mt-4 dark:text-white line-clamp-4 lg:line-clamp-none text-lg ${
             isTruncated ? "" : "line-clamp-none"
           }`}
           dangerouslySetInnerHTML={{ __html: descriptions[queryString] }}
