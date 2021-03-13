@@ -59,7 +59,7 @@ export interface GameType {
   reviews_text_count: number;
   added: number;
   added_by_status: AddedStatus;
-  metacritic: number;
+  metacritic: number | null;
   suggestions_count: number;
   updated: string;
   id: number;

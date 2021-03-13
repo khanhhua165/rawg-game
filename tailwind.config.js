@@ -21,7 +21,7 @@ module.exports = {
         "Noto Color Emoji",
       ],
       serif: [
-        "Raleway",
+        "Open Sans",
         "ui-serif",
         "Georgia",
         "Cambria",

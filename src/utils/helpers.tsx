@@ -53,3 +53,13 @@ const platforms = new Map([
 export const getPlatformIcon = (slug: string) => {
   return platforms.get(slug);
 };
+
+export const metaColor = (score: number | null) => {
+  if ((score as number) >= 75) return "green-400";
+  if ((score as number) >= 50) return "yellow-400";
+  if ((score as number) >= 25) return "blue-500";
+  return "red-500";
+};
+
+export const getDate = (date: string): [string, string, string] =>
+  date.split("-") as [string, string, string];
