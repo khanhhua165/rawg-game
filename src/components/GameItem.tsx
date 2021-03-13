@@ -1,16 +1,20 @@
 import React from "react";
+import { GameType } from "../types/GameType";
 
 interface GameItemType {
-  background: string;
-  slug: string;
-  name: string;
+  game: GameType;
 }
 
-const GameItem: React.FC<GameItemType> = ({ background, name, slug }) => {
+const GameItem: React.FC<GameItemType> = ({ game }) => {
   return (
-    <div className="flex-col pb-10 mb-3 shadow-xl w-80 bg-gray-50 dark:bg-gray-700 dark:text-white rounded-2xl no-break">
-      <img src={background} alt={slug} className="rounded-t-2xl " />
-      <div className="pl-3 mt-2 text-2xl ">{name}</div>
+    <div className="flex-col pb-10 mb-4 shadow-xl bg-gray-50 dark:bg-gray-700 dark:text-white rounded-2xl no-break">
+      <img
+        src={game.background_image}
+        alt={game.slug}
+        className="rounded-t-2xl "
+      />
+      <div className="pl-3 mt-2 text-2xl ">{game.name}</div>
+      <div className="pl-3 mt-2 text-2xl ">{game.clip}</div>
     </div>
   );
 };

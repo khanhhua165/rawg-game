@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { getGenre, getLoading } from "../selectors/GenreSelectors";
+import { getDesc, getGenre, getLoading } from "../selectors/GenreSelectors";
 import { RootState } from "../store";
 import { fetchAllGenres } from "../actions/GenreActions";
 import Spinner from "../svgs/Spinner";
@@ -8,6 +8,7 @@ import GenreNav from "./GenreNav";
 import { RouteComponentProps } from "react-router-dom";
 import Games from "./Games";
 import { getQuery } from "../utils/helpers";
+import GenreDescription from "./GenreDescription";
 
 const mapStateToProps = (state: RootState) => ({
   loading: getLoading(state),
@@ -41,6 +42,7 @@ const Body: React.FC<PropsFromRedux & RouteComponentProps> = ({
   return (
     <div className="flex flex-col w-11/12 mx-auto">
       <GenreNav genres={genres} />
+      <GenreDescription queryType={queryType} queryString={queryString} />
       <Games queryType={queryType} queryString={queryString} />
     </div>
   );

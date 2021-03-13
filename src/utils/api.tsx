@@ -17,9 +17,7 @@ instance.interceptors.response.use(
   (error) => Promise.reject(error)
 );
 
-type EndPoint = "/games" | "/genres";
-
-export const fetchApi = async (endpoint: EndPoint, params: object = {}) => {
+export const fetchApi = async (endpoint: string, params: object = {}) => {
   return instance.get<ResponseType>(endpoint, {
     params: { key: API_KEY, ...params },
   });

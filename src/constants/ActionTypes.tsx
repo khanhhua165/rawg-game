@@ -10,6 +10,7 @@ export const REVERSE_FETCH_GAMES = "REVERSE_FETCH_GAMES";
 //* Genre Actions
 export const FETCH_GENRES = "FETCH_GENRES";
 export const FETCH_GENRES_SUCCESS = "FETCH_GENRES_SUCCESS";
+export const FETCH_GENRE_DESCRIPTION = "FETCH_GENRE_DESCRIPTION";
 
 //* Type Actions
 export const CHANGE_TYPE = "CHANGE_TYPE";

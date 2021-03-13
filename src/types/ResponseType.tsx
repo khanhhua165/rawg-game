@@ -11,6 +11,15 @@ export interface GenreResponse {
   seo_description: string;
   seo_h1: string;
 }
+
+export default interface GenreDescResponse {
+  id: number;
+  name: string;
+  slug: string;
+  games_count: number;
+  image_background: string;
+  description: string;
+}
 export interface GameResponse {
   count: number;
   next: string;
@@ -23,4 +32,8 @@ export interface InvalidResponse {
   detail: string;
 }
 
-export type ResponseType = GenreResponse | GameResponse | InvalidResponse;
+export type ResponseType =
+  | GenreResponse
+  | GameResponse
+  | InvalidResponse
+  | GenreDescResponse;
