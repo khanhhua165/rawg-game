@@ -1,10 +1,52 @@
-import React from "react";
-import { GenreData } from "../actions/GenreActions";
+import React, { useEffect, useState } from "react";
+import { connect, ConnectedProps } from "react-redux";
+import { getDesc } from "../selectors/GenreSelectors";
+import { RootState } from "../store";
+import { fetchDescIfNeeded } from "../actions/GenreActions";
+const mapStateToProps = (state: RootState) => ({
+  descriptions: getDesc(state),
+});
 
-const GenreDescription: React.FC<{
-  queryType: string;
-  queryString: string;
-  genres: GenreData[];
-}> = ({ queryString, queryType, genres }) => {};
+const mapDispatchToProps = { fetchDescIfNeeded };
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
 
-export default GenreDescription;
+const GenreDescription: React.FC<
+  {
+    queryType: string;
+    queryString: string;
+  } & PropsFromRedux
+> = ({ queryString, queryType, fetchDescIfNeeded, descriptions }) => {
+  const [isTruncated, setIsTruncated] = useState<boolean>(true);
+  useEffect(() => {
+    if (queryType === "genres") {
+      fetchDescIfNeeded(queryString);
+    }
+  }, [fetchDescIfNeeded, queryString, queryType]);
+  const handleClick = () => {
+    setIsTruncated((oldState) => !oldState);
+  };
+
+  if (queryType === "genres" && descriptions[queryString]) {
+    return (
+      <div className="flex flex-col">
+        <div
+          className={`mt-4 dark:text-gray-50 line-clamp-5 lg:line-clamp-none text-lg ${
+            isTruncated ? "" : "line-clamp-none"
+          }`}
+          dangerouslySetInnerHTML={{ __html: descriptions[queryString] }}
+        ></div>
+        <div
+          className="text-gray-900 cursor-pointer dark:text-gray-100 lg:hidden"
+          onClick={handleClick}
+        >
+          {isTruncated ? "read more" : "show less"}
+        </div>
+      </div>
+    );
+  } else {
+    return null;
+  }
+};
+
+export default connector(GenreDescription);

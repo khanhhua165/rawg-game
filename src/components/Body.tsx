@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { getDesc, getGenre, getLoading } from "../selectors/GenreSelectors";
+import { getGenre, getLoading } from "../selectors/GenreSelectors";
 import { RootState } from "../store";
 import { fetchAllGenres } from "../actions/GenreActions";
 import Spinner from "../svgs/Spinner";
