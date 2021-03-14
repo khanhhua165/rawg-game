@@ -4,14 +4,16 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import appReducer from "./reducers/AppReducer";
 import gamesReducer from "./reducers/GamesReducer";
 import genreReducer from "./reducers/GenreReducer";
+import gameReducer from "./reducers/SingleGameReducer";
 
 const rootReducer = combineReducers({
   genre: genreReducer,
   app: appReducer,
   games: gamesReducer,
+  game: gameReducer,
 });
 
-const composeEnhancers = composeWithDevTools({ trace: true });
+const composeEnhancers = composeWithDevTools({ trace: false });
 
 export type RootState = ReturnType<typeof rootReducer>;
 

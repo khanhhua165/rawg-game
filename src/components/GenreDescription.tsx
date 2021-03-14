@@ -31,13 +31,13 @@ const GenreDescription: React.FC<
     return (
       <div className="flex flex-col">
         <div
-          className={`mt-4 dark:text-white line-clamp-4 lg:line-clamp-none text-lg ${
+          className={`mt-4 dark:text-white line-clamp-4 text-lg ${
             isTruncated ? "" : "line-clamp-none"
           }`}
           dangerouslySetInnerHTML={{ __html: descriptions[queryString] }}
         ></div>
         <div
-          className="text-gray-900 cursor-pointer dark:text-gray-100 lg:hidden"
+          className="italic text-gray-900 cursor-pointer dark:text-gray-100 hover:underline"
           onClick={handleClick}
         >
           {isTruncated ? "read more" : "show less"}

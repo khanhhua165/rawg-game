@@ -61,5 +61,22 @@ export const metaColor = (score: number | null) => {
   return "red-500";
 };
 
-export const getDate = (date: string): [string, string, string] =>
-  date.split("-") as [string, string, string];
+const Months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+export const toDateString = (date: string) => {
+  const [year, month, day] = date.split("-") as [string, string, string];
+  return `${Months[+month - 1]} ${day}, ${year}`;
+};

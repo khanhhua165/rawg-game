@@ -10,7 +10,7 @@ const Navbar: React.FC = () => {
         <div className="flex space-x-9 justify-left">
           <Link to="/">
             <div className="font-sans text-2xl font-bold tracking-widest uppercase cursor-pointer">
-              RAWG
+              LilRAWG
             </div>
           </Link>
           <Searchbar />

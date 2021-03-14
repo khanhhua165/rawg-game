@@ -1,8 +1,4 @@
-import {
-  FETCH_GAMES,
-  FETCH_GAMES_SUCCESS,
-  REVERSE_FETCH_GAMES,
-} from "../constants/ActionTypes";
+import { FETCH_GAMES, FETCH_GAMES_SUCCESS } from "../constants/ActionTypes";
 import { GameType } from "../types/GameType";
 import { GameResponse, InvalidResponse } from "../types/ResponseType";
 import { AppThunk } from "../types/ThunkType";
@@ -10,11 +6,6 @@ import { fetchApi } from "../utils/api";
 
 export const startFetchGames = (queryType: string, queryString: string) => ({
   type: FETCH_GAMES,
-  payload: { queryType, queryString },
-});
-
-export const stopFetchGames = (queryType: string, queryString: string) => ({
-  type: REVERSE_FETCH_GAMES,
   payload: { queryType, queryString },
 });
 

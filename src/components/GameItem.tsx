@@ -1,8 +1,9 @@
 import React from "react";
 import { IconType } from "react-icons/lib";
+import { Link } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import { GameType } from "../types/GameType";
-import { getDate, getPlatformIcon, metaColor } from "../utils/helpers";
+import { getPlatformIcon, metaColor } from "../utils/helpers";
 
 interface GameItemType {
   game: GameType;
@@ -36,8 +37,6 @@ const GameItem: React.FC<GameItemType> = ({ game }) => {
   });
 
   const metaStyle = metaColor(game.metacritic);
-  const [year, month, day] = getDate(game.released);
-  const dateString = new Date(+year, +month, +day).toDateString;
 
   return (
     <div className="relative flex-col w-full pb-10 mb-4 shadow-xl bg-gray-50 dark:bg-gray-700 dark:text-white rounded-2xl no-break">
@@ -47,11 +46,15 @@ const GameItem: React.FC<GameItemType> = ({ game }) => {
         <div
           className={`dark:text-${metaStyle} px-1 py-0.5 flex justify-center items-center border-${metaStyle} border text-gray-900 rounded-md font-semibold bg-${metaStyle} dark:bg-gray-700`}
         >
-          {game.metacritic ? game.metacritic : 0}
+          {game.metacritic ? game.metacritic : "no score"}
         </div>
       </div>
-      <div className="pl-3 pr-2 mt-2 text-2xl font-semibold">{game.name}</div>
-      {/* <div className="absolute top-24">Release Date: {dateString}</div> */}
+      <Link
+        className="pl-3 pr-2 mt-2 text-2xl font-semibold"
+        to={`/games/${game.slug}`}
+      >
+        {game.name}
+      </Link>
     </div>
   );
 };
