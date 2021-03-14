@@ -160,6 +160,10 @@ const Game: React.FC<
         </div>
       </div>
       <div className="grid grid-cols-2 gap-3 mt-3 mb-10">{gameImages}</div>
+      <div className="hidden bg-green-400 border-green-400 dark:text-green-400"></div>
+      <div className="hidden bg-yellow-400 border-yellow-400 dark:text-yellow-400"></div>
+      <div className="hidden bg-blue-400 border-blue-400 dark:text-blue-400"></div>
+      <div className="hidden bg-red-500 border-red-500 dark:text-red-500"></div>
     </div>
   );
 };
