@@ -44,7 +44,10 @@ const GameItem: React.FC<GameItemType> = ({ game }) => {
   const metaStyle = metaColor(game.metacritic);
 
   return (
-    <div className="relative flex-col w-full pb-10 mb-4 shadow-xl bg-gray-50 dark:bg-gray-700 dark:text-white rounded-2xl no-break">
+    <Link
+      to={`/games/${game.slug}`}
+      className="relative flex-col w-full pb-10 mb-4 shadow-xl bg-gray-50 dark:bg-gray-700 dark:text-white rounded-2xl no-break"
+    >
       {image}
       <div className="flex items-center justify-between px-3 pt-3">
         <div className="flex space-x-2">{platforms}</div>
@@ -54,13 +57,8 @@ const GameItem: React.FC<GameItemType> = ({ game }) => {
           {game.metacritic ? game.metacritic : "no score"}
         </div>
       </div>
-      <Link
-        className="pl-3 pr-2 mt-2 text-2xl font-semibold"
-        to={`/games/${game.slug}`}
-      >
-        {game.name}
-      </Link>
-    </div>
+      <div className="pl-3 pr-2 mt-2 text-2xl font-semibold">{game.name}</div>
+    </Link>
   );
 };
 
