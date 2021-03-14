@@ -96,7 +96,7 @@ const Game: React.FC<
     );
   });
   return (
-    <div className="w-11/12 mx-auto mt-4 text-sm sm:text-base">
+    <div className="w-11/12 mx-auto mt-4 text-sm md:text-base">
       <div className="flex flex-col justify-center sm:space-x-6 sm:flex-row">
         <img
           alt={game.name}
@@ -173,7 +173,9 @@ const Game: React.FC<
           <div className="flex flex-wrap dark:text-gray-50">{tags}</div>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-3 mt-3 mb-10">{gameImages}</div>
+      <div className="grid grid-cols-1 gap-3 mt-3 mb-10 sm:grid-cols-2">
+        {gameImages}
+      </div>
       <div className="hidden bg-green-400 border-green-400 dark:text-green-400"></div>
       <div className="hidden bg-yellow-400 border-yellow-400 dark:text-yellow-400"></div>
       <div className="hidden bg-blue-400 border-blue-400 dark:text-blue-400"></div>
