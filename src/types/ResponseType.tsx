@@ -1,5 +1,5 @@
 import { GenreType } from "../reducers/GenreReducer";
-import { GameType, SingleGameResponse } from "./GameType";
+import { GameType, ScreenshotResponse, SingleGameResponse } from "./GameType";
 
 export interface GenreResponse {
   count: number;
@@ -37,4 +37,5 @@ export type ResponseType =
   | GameResponse
   | InvalidResponse
   | SingleGameResponse
-  | GenreDescResponse;
+  | GenreDescResponse
+  | ScreenshotResponse;

@@ -9,7 +9,6 @@ import { getPlatformIcon, metaColor, toDateString } from "../utils/helpers";
 import { IconType } from "react-icons";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router-dom";
-
 const mapStateToProps = (state: RootState) => ({
   games: getGames(state),
 });
@@ -73,7 +72,7 @@ const Game: React.FC<
   const tags = game.tags.map((tag) => {
     return (
       <Link
-        to={`games?/tags=${tag.slug}`}
+        to={`/games?tags=${tag.slug}`}
         key={tag.id}
         className="pr-2 text-sm"
       >
@@ -81,15 +80,25 @@ const Game: React.FC<
       </Link>
     );
   });
+  const gameImages = game.screenshots.map((screenshot) => {
+    return (
+      <img
+        src={screenshot.image}
+        alt={screenshot.id}
+        key={screenshot.id}
+        className="rounded-lg"
+      />
+    );
+  });
   return (
-    <div className="w-11/12 mx-auto mt-4">
-      <div className="flex justify-center space-x-6">
+    <div className="w-11/12 mx-auto mt-4 text-sm sm:text-base">
+      <div className="flex flex-col justify-center sm:space-x-6 sm:flex-row">
         <img
           alt={game.name}
           src={game.background_image}
-          className="self-start w-1/3 rounded-lg shadow-md"
+          className="self-start w-full mb-3 rounded-lg shadow-md sm:w-5/12"
         />
-        <div className="flex flex-col w-2/3">
+        <div className="flex flex-col w-full sm:w-7/12">
           <div className="flex items-center space-x-5">
             <div className="text-white px-1 py-0.5 rounded-lg bg-pink-600">
               {toDateString(game.released)}
@@ -109,8 +118,10 @@ const Game: React.FC<
             <div className="text-gray-600 dark:text-gray-400">Genres:</div>
             <div className="flex flex-wrap">{genres}</div>
           </div>
-          <div className="flex mt-2 space-x-2">
-            <div className="text-gray-600 dark:text-gray-400">Homepage:</div>
+          <div className="flex flex-wrap items-center mt-2">
+            <div className="mr-2 text-gray-600 dark:text-gray-400">
+              Homepage:
+            </div>
             <div className="dark:text-gray-50">
               <a href={game.website} target="_blank" rel="noreferrer">
                 {game.website}
@@ -118,8 +129,10 @@ const Game: React.FC<
             </div>
           </div>
           {game.reddit_url ? (
-            <div className="flex items-center mt-2 space-x-3">
-              <div className="text-gray-600 dark:text-gray-400">Subreddit:</div>
+            <div className="flex flex-wrap items-center mt-2">
+              <div className="mr-4 text-gray-600 dark:text-gray-400">
+                Subreddit:
+              </div>
               <div className="dark:text-gray-50">
                 <a href={game.reddit_url} target="_blank" rel="noreferrer">
                   {game.reddit_url}
@@ -146,6 +159,7 @@ const Game: React.FC<
           <div className="flex flex-wrap dark:text-gray-50">{tags}</div>
         </div>
       </div>
+      <div className="grid grid-cols-2 gap-3 mt-3 mb-10">{gameImages}</div>
     </div>
   );
 };

@@ -1,17 +1,30 @@
 import { FETCH_GAME } from "../constants/ActionTypes";
-import { SingleGameResponse } from "../types/GameType";
+import {
+  Screenshot,
+  ScreenshotResponse,
+  SingleGameResponse,
+} from "../types/GameType";
 import { AppThunk } from "../types/ThunkType";
 import { fetchApi } from "../utils/api";
 
-const storeGame = (slug: string, game: SingleGameResponse) => ({
+const storeGame = (
+  slug: string,
+  game: SingleGameResponse & { screenshots: Screenshot[] }
+) => ({
   type: FETCH_GAME,
   payload: { slug, game },
 });
 
 const fetchGame = (slug: string): AppThunk => {
   return async (dispatch) => {
-    const game = (await fetchApi(`/games/${slug}`)).data as SingleGameResponse;
-    dispatch(storeGame(slug, game));
+    const [gameRes, screenshotRes] = await Promise.all([
+      fetchApi(`/games/${slug}`),
+      fetchApi(`/games/${slug}/screenshots`),
+    ]);
+    const game = gameRes.data as SingleGameResponse;
+    const screenshots = (screenshotRes.data as ScreenshotResponse).results;
+
+    dispatch(storeGame(slug, { ...game, screenshots }));
   };
 };
 

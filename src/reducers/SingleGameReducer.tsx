@@ -1,13 +1,13 @@
 import * as actionTypes from "../constants/ActionTypes";
-import { SingleGameResponse } from "../types/GameType";
+import { Screenshot, SingleGameResponse } from "../types/GameType";
 
 interface SingleGamePayload {
   slug: string;
-  game: SingleGameResponse;
+  game: SingleGameResponse & { screenshots: Screenshot[] };
 }
 
 interface GameState {
-  [slug: string]: SingleGameResponse;
+  [slug: string]: SingleGameResponse & { screenshots: Screenshot[] };
 }
 
 const initialState = {};

@@ -4,11 +4,15 @@ import { Redirect, Route } from "react-router-dom";
 import Body from "./Body";
 import Game from "./Game";
 import Navbar from "./Navbar";
+import Searchbar from "./Searchbar";
 
 const Layout: React.FC = () => {
   return (
     <div className="flex flex-col">
       <Navbar />
+      <div className="flex justify-center w-11/12 mx-auto">
+        <Searchbar responsive="sm:hidden mt-3" />
+      </div>
       <Switch>
         <Route exact path="/">
           <Redirect to="/games?genres=action" />
