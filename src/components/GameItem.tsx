@@ -26,15 +26,20 @@ const GameItem: React.FC<GameItemType> = ({ game }) => {
       </div>
     );
   }
-  const platforms = game.parent_platforms.map((platform) => {
-    const Icon = getPlatformIcon(platform.platform.slug) as IconType;
-    return (
-      <React.Fragment key={platform.platform.id}>
-        <Icon className="text-lg" data-tip={platform.platform.name} />
-        <ReactTooltip place="bottom" type="dark" effect="solid" />
-      </React.Fragment>
-    );
-  });
+  let platforms: JSX.Element | JSX.Element[];
+  if (!game.parent_platforms) {
+    platforms = <></>;
+  } else {
+    platforms = game.parent_platforms.map((platform) => {
+      const Icon = getPlatformIcon(platform.platform.slug) as IconType;
+      return (
+        <React.Fragment key={platform.platform.id}>
+          <Icon className="text-lg" data-tip={platform.platform.name} />
+          <ReactTooltip place="bottom" type="dark" effect="solid" />
+        </React.Fragment>
+      );
+    });
+  }
 
   const metaStyle = metaColor(game.metacritic);
 

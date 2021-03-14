@@ -45,15 +45,20 @@ const Game: React.FC<
   } else {
     alterNames = <></>;
   }
-  const platforms = game.parent_platforms.map((platform) => {
-    const Icon = getPlatformIcon(platform.platform.slug) as IconType;
-    return (
-      <React.Fragment key={platform.platform.id}>
-        <Icon className="text-lg" data-tip={platform.platform.name} />
-        <ReactTooltip place="bottom" type="dark" effect="solid" />
-      </React.Fragment>
-    );
-  });
+  let platforms: JSX.Element | JSX.Element[];
+  if (!game.parent_platforms) {
+    platforms = <></>;
+  } else {
+    platforms = game.parent_platforms.map((platform) => {
+      const Icon = getPlatformIcon(platform.platform.slug) as IconType;
+      return (
+        <React.Fragment key={platform.platform.id}>
+          <Icon className="text-lg" data-tip={platform.platform.name} />
+          <ReactTooltip place="bottom" type="dark" effect="solid" />
+        </React.Fragment>
+      );
+    });
+  }
   const metaStyle = metaColor(game.metacritic);
   const genres = game.genres.map((genre) => {
     return (
@@ -110,24 +115,29 @@ const Game: React.FC<
           </div>
           {alterNames}
           <div
-            className={`dark:text-${metaStyle} px-1 py-0.5 self-start text-2xl mt-2 text-center border-${metaStyle} border text-gray-900 rounded-md font-semibold bg-${metaStyle} dark:bg-gray-700`}
+            className={`dark:text-${metaStyle} px-1 py-0.5 self-start text-2xl mt-2 text-center border-${metaStyle} border text-gray-900 rounded-md font-semibold bg-${metaStyle} dark:bg-gray-900`}
           >
             {game.metacritic ? game.metacritic : "no score"}
           </div>
-          <div className="flex mt-2 space-x-2">
-            <div className="text-gray-600 dark:text-gray-400">Genres:</div>
-            <div className="flex flex-wrap">{genres}</div>
-          </div>
-          <div className="flex flex-wrap items-center mt-2">
-            <div className="mr-2 text-gray-600 dark:text-gray-400">
-              Homepage:
+          {genres.length !== 0 ? (
+            <div className="flex mt-2 space-x-2">
+              <div className="text-gray-600 dark:text-gray-400">Genres:</div>
+              <div className="flex flex-wrap">{genres}</div>
             </div>
-            <div className="dark:text-gray-50">
-              <a href={game.website} target="_blank" rel="noreferrer">
-                {game.website}
-              </a>
+          ) : null}
+
+          {game.website ? (
+            <div className="flex flex-wrap items-center mt-2">
+              <div className="mr-2 text-gray-600 dark:text-gray-400">
+                Homepage:
+              </div>
+              <div className="dark:text-gray-50">
+                <a href={game.website} target="_blank" rel="noreferrer">
+                  {game.website}
+                </a>
+              </div>
             </div>
-          </div>
+          ) : null}
           {game.reddit_url ? (
             <div className="flex flex-wrap items-center mt-2">
               <div className="mr-4 text-gray-600 dark:text-gray-400">
@@ -140,21 +150,25 @@ const Game: React.FC<
               </div>
             </div>
           ) : null}
+          {game.description_raw ? (
+            <>
+              <div className="mt-2 text-gray-600 dark:text-gray-400">About</div>
+              <div
+                className={`line-clamp-2 dark:text-gray-50 ${
+                  isTruncated ? "" : "line-clamp-none"
+                }`}
+              >
+                {game.description_raw}
+              </div>
+              <div
+                className="italic text-gray-600 cursor-pointer hover:underline dark:text-gray-400"
+                onClick={handleClick}
+              >
+                {isTruncated ? "read more" : "show less"}
+              </div>
+            </>
+          ) : null}
 
-          <div className="mt-2 text-gray-600 dark:text-gray-400">About</div>
-          <div
-            className={`line-clamp-3 dark:text-gray-50 ${
-              isTruncated ? "" : "line-clamp-none"
-            }`}
-          >
-            {game.description_raw}
-          </div>
-          <div
-            className="italic text-gray-600 cursor-pointer hover:underline dark:text-gray-400"
-            onClick={handleClick}
-          >
-            {isTruncated ? "read more" : "show less"}
-          </div>
           <div className="mt-2 text-gray-600 dark:text-gray-400">Tags</div>
           <div className="flex flex-wrap dark:text-gray-50">{tags}</div>
         </div>

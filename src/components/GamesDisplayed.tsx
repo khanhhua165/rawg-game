@@ -1,16 +1,12 @@
 import React from "react";
-import Spinner from "../svgs/Spinner";
 import { GameType } from "../types/GameType";
 import GameItem from "./GameItem";
 
 const GamesDisplayed: React.FC<{ games: GameType[] }> = ({ games }) => {
   if (games.length === 0) {
     return (
-      <div className="flex flex-col items-center mt-28">
-        <Spinner classItems="w-24 animate-spin dark:text-gray-300" />
-        <div className="text-xl italic font-semibold dark:text-gray-300">
-          Loading...
-        </div>
+      <div className="mx-auto mt-5 text-2xl font-semibold sm:text-3xl md:text-4xl dark:text-white">
+        NO GAMES AVAILABLE
       </div>
     );
   }

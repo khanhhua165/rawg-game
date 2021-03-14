@@ -4,7 +4,7 @@ import { getUnfetchedGames } from "../actions/GamesActions";
 import { getGames } from "../selectors/GamesSelectors";
 import { RootState } from "../store";
 import GamesDisplayed from "./GamesDisplayed";
-import { GameType } from "../types/GameType";
+import Spinner from "../svgs/Spinner";
 
 const mapStateToProps = (state: RootState) => ({
   games: getGames(state),
@@ -21,11 +21,17 @@ const Games: React.FC<
     getUnfetchedGames(queryType, queryString);
   }, [getUnfetchedGames, queryString, queryType]);
 
-  let gamesDisplayed: GameType[] = [];
-
-  if (games[queryType]?.[queryString]?.games) {
-    gamesDisplayed = [...games[queryType][queryString].games];
+  if (!games[queryType]?.[queryString]?.games) {
+    return (
+      <div className="flex flex-col items-center mt-28">
+        <Spinner classItems="w-24 animate-spin dark:text-gray-300" />
+        <div className="text-xl italic font-semibold dark:text-gray-300">
+          Loading...
+        </div>
+      </div>
+    );
   }
+  const gamesDisplayed = [...games[queryType][queryString].games];
   return (
     <div className="flex flex-col">
       <GamesDisplayed games={gamesDisplayed} />

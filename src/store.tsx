@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
   game: gameReducer,
 });
 
-const composeEnhancers = composeWithDevTools({ trace: false });
+const composeEnhancers = composeWithDevTools({ trace: true });
 
 export type RootState = ReturnType<typeof rootReducer>;
 
