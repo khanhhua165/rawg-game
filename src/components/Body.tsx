@@ -41,7 +41,11 @@ const Body: React.FC<PropsFromRedux & RouteComponentProps> = ({
   const [queryType, queryString] = getQuery(location.search);
   return (
     <div className="flex flex-col w-11/12 mx-auto">
-      <GenreNav genres={genres} />
+      <GenreNav
+        genres={genres}
+        queryType={queryType}
+        queryString={queryString}
+      />
       <GenreDescription queryType={queryType} queryString={queryString} />
       <Games queryType={queryType} queryString={queryString} />
     </div>

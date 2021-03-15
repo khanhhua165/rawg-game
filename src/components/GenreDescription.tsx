@@ -29,9 +29,9 @@ const GenreDescription: React.FC<
 
   if (queryType === "genres" && descriptions[queryString]) {
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col text-sm sm:text-base">
         <div
-          className={`mt-4 dark:text-white line-clamp-4 text-lg ${
+          className={`mt-4 dark:text-white line-clamp-3 text-base sm:text-lg ${
             isTruncated ? "" : "line-clamp-none"
           }`}
           dangerouslySetInnerHTML={{ __html: descriptions[queryString] }}
