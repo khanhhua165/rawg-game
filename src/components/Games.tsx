@@ -5,6 +5,7 @@ import { getGames } from "../selectors/GamesSelectors";
 import { RootState } from "../store";
 import GamesDisplayed from "./GamesDisplayed";
 import Spinner from "../svgs/Spinner";
+import _ from "lodash";
 
 const mapStateToProps = (state: RootState) => ({
   games: getGames(state),
@@ -22,23 +23,21 @@ const Games: React.FC<
   }, [getUnfetchedGames, queryString, queryType]);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const handleScroll = _.throttle(() => {
       if (
         window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 200
+        document.body.offsetHeight - 100
       ) {
-        setTimeout(() => {
-          getNextGames(queryType, queryString);
-        }, 5000);
+        getNextGames(queryType, queryString);
       }
-    };
+    }, 300);
+
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [getNextGames, queryString, queryType]);
-
   if (!games[queryType]?.[queryString]?.games) {
     return (
       <div className="flex flex-col items-center mt-28">
@@ -50,9 +49,10 @@ const Games: React.FC<
     );
   }
   const gamesDisplayed = [...games[queryType][queryString].games];
+  const isLoading = games[queryType][queryString].loading;
   return (
     <div className="flex flex-col">
-      <GamesDisplayed games={gamesDisplayed} />
+      <GamesDisplayed games={gamesDisplayed} isLoading={isLoading} />
     </div>
   );
 };
