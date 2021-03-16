@@ -17,7 +17,7 @@ instance.interceptors.response.use(
   (error) => Promise.reject(error)
 );
 
-export const fetchApi = async (endpoint: string, params: object = {}) => {
+export const fetchApi = (endpoint: string, params: object = {}) => {
   return instance.get<ResponseType>(endpoint, {
     params: { key: API_KEY, ...params },
   });

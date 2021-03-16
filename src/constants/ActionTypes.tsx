@@ -4,7 +4,7 @@ export const CHANGE_SCREEN_SIZE = "CHANGE_SCREEN_SIZE";
 
 //* Games Actions
 export const FETCH_GAMES = "FETCH_GAMES";
-export const FETCH_GAMES_SUCCESS = "FETCH_GAMES_GENRE_SUCCESS";
+export const FETCH_GAMES_SUCCESS = "FETCH_GAMES_SUCCESS";
 export const FETCH_GAMES_NEXT = "FETCH_GAMES_NEXT";
 
 //* Game Actions

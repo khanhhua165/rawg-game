@@ -3,7 +3,7 @@ import { GameType } from "../types/GameType";
 
 interface GamesLoaded {
   loading: boolean;
-  nextPage: number | null;
+  nextPage: number;
   games: GameType[];
 }
 interface GamesContainer {
@@ -12,7 +12,7 @@ interface GamesContainer {
 interface GamesPayload {
   queryType: string;
   queryString: string;
-  nextPage: number | null;
+  nextPage: number;
   gamesLoaded: GameType[];
 }
 

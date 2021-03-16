@@ -3,11 +3,15 @@ import { Screenshot, SingleGameResponse } from "../types/GameType";
 
 interface SingleGamePayload {
   slug: string;
-  game: SingleGameResponse & { screenshots: Screenshot[] };
+  game:
+    | (SingleGameResponse & { screenshots: Screenshot[] })
+    | { error: boolean };
 }
 
 interface GameState {
-  [slug: string]: SingleGameResponse & { screenshots: Screenshot[] };
+  [slug: string]:
+    | (SingleGameResponse & { screenshots: Screenshot[] })
+    | { error: boolean };
 }
 
 const initialState = {};

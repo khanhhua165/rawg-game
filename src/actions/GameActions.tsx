@@ -9,7 +9,9 @@ import { fetchApi } from "../utils/api";
 
 const storeGame = (
   slug: string,
-  game: SingleGameResponse & { screenshots: Screenshot[] }
+  game:
+    | (SingleGameResponse & { screenshots: Screenshot[] })
+    | { error: boolean }
 ) => ({
   type: FETCH_GAME,
   payload: { slug, game },
@@ -17,14 +19,17 @@ const storeGame = (
 
 const fetchGame = (slug: string): AppThunk => {
   return async (dispatch) => {
-    const [gameRes, screenshotRes] = await Promise.all([
-      fetchApi(`/games/${slug}`),
-      fetchApi(`/games/${slug}/screenshots`),
-    ]);
-    const game = gameRes.data as SingleGameResponse;
-    const screenshots = (screenshotRes.data as ScreenshotResponse).results;
-
-    dispatch(storeGame(slug, { ...game, screenshots }));
+    try {
+      const [gameRes, screenshotRes] = await Promise.all([
+        fetchApi(`/games/${slug}`),
+        fetchApi(`/games/${slug}/screenshots`),
+      ]);
+      const game = gameRes.data as SingleGameResponse;
+      const screenshots = (screenshotRes.data as ScreenshotResponse).results;
+      dispatch(storeGame(slug, { ...game, screenshots }));
+    } catch (e: unknown) {
+      dispatch(storeGame(slug, { error: true }));
+    }
   };
 };
 

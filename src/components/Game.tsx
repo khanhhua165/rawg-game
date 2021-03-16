@@ -9,6 +9,8 @@ import { getPlatformIcon, metaColor, toDateString } from "../utils/helpers";
 import { IconType } from "react-icons";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router-dom";
+import { Screenshot, SingleGameResponse } from "../types/GameType";
+
 const mapStateToProps = (state: RootState) => ({
   games: getGames(state),
 });
@@ -34,7 +36,18 @@ const Game: React.FC<
       </div>
     );
   }
-  const game = games[match.params.slugName];
+
+  if ((games[match.params.slugName] as { error: boolean }).error) {
+    return (
+      <div className="mx-auto mt-4 text-5xl dark:text-white">
+        No Game Available
+      </div>
+    );
+  }
+  const game = games[match.params.slugName] as SingleGameResponse & {
+    screenshots: Screenshot[];
+  };
+
   let alterNames: JSX.Element;
   if (game.alternative_names.length > 0) {
     alterNames = (
@@ -91,7 +104,7 @@ const Game: React.FC<
         src={screenshot.image}
         alt={screenshot.id}
         key={screenshot.id}
-        className="rounded-lg"
+        className="mb-4 rounded-lg"
       />
     );
   });
@@ -173,7 +186,7 @@ const Game: React.FC<
           <div className="flex flex-wrap dark:text-gray-50">{tags}</div>
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-3 mt-3 mb-10 sm:grid-cols-2">
+      <div className="mt-5 mb-10 masonry masonry-1 sm:masonry-2">
         {gameImages}
       </div>
       <div className="hidden bg-green-400 border-green-400 dark:text-green-400"></div>

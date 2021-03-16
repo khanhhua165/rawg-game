@@ -56,7 +56,7 @@ const GenreNav: React.FC<{
         <div className="flex items-center mb-1 space-x-2">
           <div className="">{queryType === "genres" ? genreName : "Genre"}</div>
           <div
-            className="text-lg cursor-pointer"
+            className="text-xl cursor-pointer"
             onClick={() => setIsExpend((oldState) => !oldState)}
           >
             {isExpend ? <IoCaretUpCircle /> : <IoCaretDownCircle />}

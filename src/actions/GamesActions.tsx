@@ -12,7 +12,7 @@ export const startFetchGames = (queryType: string, queryString: string) => ({
 const storeGames = (
   queryType: string,
   queryString: string,
-  nextPage: number | null,
+  nextPage: number,
   gamesLoaded: GameType[]
 ) => {
   return {
@@ -59,5 +59,16 @@ export const getUnfetchedGames = (
     if (!state.games[queryType]?.[queryString]) {
       dispatch(fetchGames(queryType, queryString));
     }
+  };
+};
+
+export const getNextGames = (
+  queryType: string,
+  queryString: string
+): AppThunk => {
+  return (dispatch, getState) => {
+    const state = getState();
+    const page = state.games[queryType][queryString].nextPage;
+    dispatch(fetchGames(queryType, queryString, page));
   };
 };
