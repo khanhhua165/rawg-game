@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { getNextGames, getUnfetchedGames } from "../actions/GamesActions";
+import {
+  getNextGames,
+  getUnfetchedGames,
+  clearGames,
+} from "../actions/GamesActions";
 import { getGames } from "../selectors/GamesSelectors";
 import { RootState } from "../store";
 import GamesDisplayed from "./GamesDisplayed";
@@ -11,22 +15,32 @@ const mapStateToProps = (state: RootState) => ({
   games: getGames(state),
 });
 
-const mapDispatchToProps = { getUnfetchedGames, getNextGames };
+const mapDispatchToProps = { getUnfetchedGames, getNextGames, clearGames };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const Games: React.FC<
   PropsFromRedux & { queryType: string; queryString: string }
-> = ({ getUnfetchedGames, games, queryType, queryString, getNextGames }) => {
+> = ({
+  getUnfetchedGames,
+  games,
+  queryType,
+  queryString,
+  getNextGames,
+  clearGames,
+}) => {
   useEffect(() => {
     getUnfetchedGames(queryType, queryString);
-  }, [getUnfetchedGames, queryString, queryType]);
+    return () => {
+      clearGames(queryType, queryString);
+    };
+  }, [clearGames, getUnfetchedGames, queryString, queryType]);
 
   useEffect(() => {
     const handleScroll = _.throttle(() => {
       if (
         window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 100
+        document.body.offsetHeight - 300
       ) {
         getNextGames(queryType, queryString);
       }
@@ -49,10 +63,14 @@ const Games: React.FC<
     );
   }
   const gamesDisplayed = [...games[queryType][queryString].games];
-  const isLoading = games[queryType][queryString].loading;
+  const { loading, hasNext } = games[queryType][queryString];
   return (
     <div className="flex flex-col">
-      <GamesDisplayed games={gamesDisplayed} isLoading={isLoading} />
+      <GamesDisplayed
+        games={gamesDisplayed}
+        isLoading={loading}
+        hasNext={hasNext}
+      />
     </div>
   );
 };

@@ -6,6 +6,8 @@ export const CHANGE_SCREEN_SIZE = "CHANGE_SCREEN_SIZE";
 export const FETCH_GAMES = "FETCH_GAMES";
 export const FETCH_GAMES_SUCCESS = "FETCH_GAMES_SUCCESS";
 export const FETCH_GAMES_NEXT = "FETCH_GAMES_NEXT";
+export const FETCH_GAMES_NOMORE = "FETCH_GAMES_NOMORE";
+export const RESET_GAMES_DATA = "RESET_GAMES_DATA";
 
 //* Game Actions
 export const FETCH_GAME = "FETCH_GAME";

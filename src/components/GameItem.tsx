@@ -16,7 +16,7 @@ const GameItem: React.FC<GameItemType> = ({ game }) => {
       <img
         src={game.background_image}
         alt={game.slug}
-        className="w-full rounded-t-2xl"
+        className="object-cover w-full h-52 rounded-t-2xl"
       />
     );
   } else {
@@ -57,7 +57,9 @@ const GameItem: React.FC<GameItemType> = ({ game }) => {
           {game.metacritic ? game.metacritic : "no score"}
         </div>
       </div>
-      <div className="pl-3 pr-2 mt-2 text-2xl font-semibold">{game.name}</div>
+      <div className="pb-3 pl-3 pr-2 mt-2 text-2xl font-semibold">
+        {game.name}
+      </div>
     </Link>
   );
 };

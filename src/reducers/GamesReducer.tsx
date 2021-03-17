@@ -3,6 +3,7 @@ import { GameType } from "../types/GameType";
 
 interface GamesLoaded {
   loading: boolean;
+  hasNext: boolean;
   nextPage: number;
   games: GameType[];
 }
@@ -39,7 +40,45 @@ const gamesReducer = (
         ...state,
         [queryType]: {
           ...state[queryType],
-          [queryString]: { ...state[queryType]?.[queryString], loading: true },
+          [queryString]: {
+            ...state[queryType]?.[queryString],
+            loading: true,
+            hasNext: true,
+          },
+        },
+      };
+    }
+    case actionTypes.FETCH_GAMES_NOMORE: {
+      const { queryType, queryString } = action.payload as RequestPayload;
+      return {
+        ...state,
+        [queryType]: {
+          ...state[queryType],
+          [queryString]: {
+            ...state[queryType]?.[queryString],
+            loading: false,
+            hasNext: false,
+          },
+        },
+      };
+    }
+    case actionTypes.RESET_GAMES_DATA: {
+      const { queryType, queryString } = action.payload as RequestPayload;
+      const currentGames = state[queryType][queryString].games;
+      const totalGamesCount = currentGames.length;
+      let baseGame = 20;
+      if (totalGamesCount < 20) baseGame = totalGamesCount;
+      const baseGamesStore = currentGames.slice(0, baseGame);
+      return {
+        ...state,
+        [queryType]: {
+          ...state[queryType],
+          [queryString]: {
+            ...state[queryType]?.[queryString],
+            hasNext: true,
+            nextPage: 2,
+            games: baseGamesStore,
+          },
         },
       };
     }
