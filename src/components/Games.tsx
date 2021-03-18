@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from "react-redux";
 import {
   getNextGames,
   getUnfetchedGames,
-  clearGames,
+  clearIfHaveGames,
 } from "../actions/GamesActions";
 import { getGames } from "../selectors/GamesSelectors";
 import { RootState } from "../store";
@@ -16,7 +16,11 @@ const mapStateToProps = (state: RootState) => ({
   games: getGames(state),
 });
 
-const mapDispatchToProps = { getUnfetchedGames, getNextGames, clearGames };
+const mapDispatchToProps = {
+  getUnfetchedGames,
+  getNextGames,
+  clearIfHaveGames,
+};
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
@@ -28,14 +32,14 @@ const Games: React.FC<
   queryType,
   queryString,
   getNextGames,
-  clearGames,
+  clearIfHaveGames,
 }) => {
   useEffect(() => {
     getUnfetchedGames(queryType, queryString);
     return () => {
-      clearGames(queryType, queryString);
+      clearIfHaveGames(queryType, queryString);
     };
-  }, [clearGames, getUnfetchedGames, queryString, queryType]);
+  }, [clearIfHaveGames, getUnfetchedGames, queryString, queryType]);
 
   useEffect(() => {
     const handleScroll = _.throttle(() => {

@@ -36,7 +36,7 @@ const fetchGamesNoMore = (queryType: string, queryString: string) => ({
   payload: { queryType, queryString },
 });
 
-export const clearGames = (queryType: string, queryString: string) => ({
+const clearGames = (queryType: string, queryString: string) => ({
   type: RESET_GAMES_DATA,
   payload: { queryType, queryString },
 });
@@ -95,6 +95,18 @@ export const getNextGames = (
       state.games[queryType][queryString].hasNext
     ) {
       dispatch(fetchGames(queryType, queryString, page));
+    }
+  };
+};
+
+export const clearIfHaveGames = (
+  queryType: string,
+  queryString: string
+): AppThunk => {
+  return (dispatch, getState) => {
+    const state = getState();
+    if (state.games[queryType]?.[queryString]?.games) {
+      dispatch(clearGames(queryType, queryString));
     }
   };
 };
