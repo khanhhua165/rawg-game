@@ -10,6 +10,7 @@ import { RootState } from "../store";
 import GamesDisplayed from "./GamesDisplayed";
 import Spinner from "../svgs/Spinner";
 import _ from "lodash";
+import ScrollTop from "./ScrollTop";
 
 const mapStateToProps = (state: RootState) => ({
   games: getGames(state),
@@ -65,13 +66,16 @@ const Games: React.FC<
   const gamesDisplayed = [...games[queryType][queryString].games];
   const { loading, hasNext } = games[queryType][queryString];
   return (
-    <div className="flex flex-col">
-      <GamesDisplayed
-        games={gamesDisplayed}
-        isLoading={loading}
-        hasNext={hasNext}
-      />
-    </div>
+    <>
+      <div className="flex flex-col">
+        <GamesDisplayed
+          games={gamesDisplayed}
+          isLoading={loading}
+          hasNext={hasNext}
+        />
+      </div>
+      <ScrollTop />
+    </>
   );
 };
 

@@ -139,6 +139,7 @@ export interface SingleGameResponse {
   esrb_rating: { id: number; name: string; slug: string };
   clip: null;
   description_raw: string;
+  video?: string;
 }
 
 export interface Screenshot {

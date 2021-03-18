@@ -15,7 +15,7 @@ const Layout: React.FC = () => {
       </div>
       <Switch>
         <Route exact path="/">
-          <Redirect to="/games?genres=action" />
+          <Redirect to="/games" />
         </Route>
         <Route path="/games" exact render={(props) => <Body {...props} />} />
         <Route

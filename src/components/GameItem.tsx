@@ -46,7 +46,7 @@ const GameItem: React.FC<GameItemType> = ({ game }) => {
   return (
     <Link
       to={`/games/${game.slug}`}
-      className="relative flex-col w-full shadow-xl bg-gray-50 dark:bg-gray-700 dark:text-white rounded-2xl no-break"
+      className="relative flex-col self-stretch w-full shadow-xl bg-gray-50 dark:bg-gray-700 dark:text-white rounded-2xl no-break"
     >
       {image}
       <div className="flex items-center justify-between px-3 pt-3">

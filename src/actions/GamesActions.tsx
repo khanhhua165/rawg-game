@@ -49,7 +49,10 @@ const fetchGames = (
   return async (dispatch) => {
     dispatch(startFetchGames(queryType, queryString));
     try {
-      const params = { [queryType]: queryString, page };
+      let params: object = {};
+      if (!(queryType === "all")) {
+        params = { [queryType]: queryString, page };
+      }
       const gamesData = (await fetchApi("/games", params)).data;
       if (!(gamesData as InvalidResponse).detail) {
         const nextPage = page + 1;
