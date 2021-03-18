@@ -41,6 +41,7 @@ module.exports = {
   variants: {
     extend: {
       textColor: ["active"],
+      borderWidth: ["dark"],
     },
   },
   plugins: [require("@tailwindcss/line-clamp")],

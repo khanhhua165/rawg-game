@@ -10,6 +10,8 @@ import { IconType } from "react-icons";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router-dom";
 import { Screenshot, SingleGameResponse } from "../types/GameType";
+import { Trailer } from "../types/ResponseType";
+import TrailerModal from "./TrailerModal";
 
 const mapStateToProps = (state: RootState) => ({
   games: getGames(state),
@@ -23,6 +25,7 @@ const Game: React.FC<
   RouteComponentProps<{ slugName: string }> & PropsFromRedux
 > = ({ fetchGameIfNeeded, match, games }) => {
   const [isTruncated, setIsTruncated] = useState<boolean>(true);
+  const [showTrailer, setShowTrailer] = useState<boolean>(false);
   useEffect(() => {
     fetchGameIfNeeded(match.params.slugName);
   }, [fetchGameIfNeeded, match.params.slugName]);
@@ -46,7 +49,7 @@ const Game: React.FC<
   }
   const game = games[match.params.slugName] as SingleGameResponse & {
     screenshots: Screenshot[];
-  };
+  } & { trailers: Trailer[] };
 
   let alterNames: JSX.Element;
   if (game.alternative_names.length > 0) {
@@ -108,19 +111,46 @@ const Game: React.FC<
       />
     );
   });
+  const trailer = game.trailers.length > 0 ? game.trailers[0].data[480] : "";
+  const switchShowTrailer = () => {
+    setShowTrailer((showTrailer) => !showTrailer);
+  };
   return (
     <div className="w-11/12 mx-auto mt-4 text-sm md:text-base">
       <div className="flex flex-col justify-center sm:space-x-6 sm:flex-row">
-        <img
-          alt={game.name}
-          src={game.background_image}
-          className="self-start w-full mb-3 rounded-lg shadow-md sm:w-5/12"
-        />
+        <div className="self-start w-full mb-3 sm:w-5/12">
+          <img
+            alt={game.name}
+            src={game.background_image}
+            className="mb-2 rounded-lg shadow-md"
+          />
+          {trailer ? (
+            <div
+              className="flex items-center py-0.5 justify-center mb-2 bg-gray-300 border-pink-600 rounded-lg cursor-pointer hover:bg-pink-500 dark:bg-gray-900 dark:border dark:hover:bg-pink-600 dark:text-gray-50"
+              onClick={switchShowTrailer}
+            >
+              Game Trailer
+            </div>
+          ) : null}
+          {showTrailer ? (
+            <TrailerModal
+              source={trailer}
+              switchShowTrailer={switchShowTrailer}
+            />
+          ) : null}
+          <div className="flex items-center justify-center py-0.5 bg-gray-300 border-pink-600 rounded-lg cursor-pointer hover:bg-pink-500 dark:bg-gray-900 dark:border dark:hover:bg-pink-600 dark:text-gray-50">
+            Add To Collection
+          </div>
+        </div>
+
         <div className="flex flex-col w-full sm:w-7/12">
           <div className="flex items-center space-x-5">
-            <div className="text-white px-1 py-0.5 rounded-lg bg-pink-600">
-              {toDateString(game.released)}
-            </div>
+            {game.released ? (
+              <div className="text-white px-1 py-0.5 rounded-lg bg-pink-600">
+                {toDateString(game.released)}
+              </div>
+            ) : null}
+
             <div className="flex space-x-2 dark:text-white">{platforms}</div>
           </div>
           <div className="mt-2 text-4xl font-bold dark:text-white">

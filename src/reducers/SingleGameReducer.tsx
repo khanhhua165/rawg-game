@@ -1,16 +1,21 @@
 import * as actionTypes from "../constants/ActionTypes";
 import { Screenshot, SingleGameResponse } from "../types/GameType";
+import { Trailer } from "../types/ResponseType";
 
 interface SingleGamePayload {
   slug: string;
   game:
-    | (SingleGameResponse & { screenshots: Screenshot[] })
+    | (SingleGameResponse & { screenshots: Screenshot[] } & {
+        trailers: Trailer[];
+      })
     | { error: boolean };
 }
 
 interface GameState {
   [slug: string]:
-    | (SingleGameResponse & { screenshots: Screenshot[] })
+    | (SingleGameResponse & { screenshots: Screenshot[] } & {
+        trailers: Trailer[];
+      })
     | { error: boolean };
 }
 

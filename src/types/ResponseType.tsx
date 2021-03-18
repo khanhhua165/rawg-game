@@ -27,6 +27,15 @@ export interface GameResponse {
   results: GameType[];
   user_platforms: boolean;
 }
+export interface Trailer {
+  id: number;
+  name: string;
+  preview: string;
+  data: { 480: string; max: string };
+}
+export interface TrailerResponse {
+  results: Trailer[];
+}
 
 export interface InvalidResponse {
   detail: string;
@@ -38,4 +47,5 @@ export type ResponseType =
   | InvalidResponse
   | SingleGameResponse
   | GenreDescResponse
-  | ScreenshotResponse;
+  | ScreenshotResponse
+  | TrailerResponse;
