@@ -49,7 +49,7 @@ const fetchGames = (
   return async (dispatch) => {
     dispatch(startFetchGames(queryType, queryString));
     try {
-      let params: object = {};
+      let params: object = { page };
       if (!(queryType === "all")) {
         params = { [queryType]: queryString, page };
       }
