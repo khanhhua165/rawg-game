@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import { GameType } from "../types/GameType";
 import { getPlatformIcon, metaColor } from "../utils/helpers";
-
+import { RiHandHeartFill } from "react-icons/ri";
 interface GameItemType {
   game: GameType;
 }
@@ -44,11 +44,8 @@ const GameItem: React.FC<GameItemType> = ({ game }) => {
   const metaStyle = metaColor(game.metacritic);
 
   return (
-    <Link
-      to={`/games/${game.slug}`}
-      className="relative flex-col self-stretch w-full shadow-xl bg-gray-50 dark:bg-gray-700 dark:text-white rounded-2xl no-break"
-    >
-      {image}
+    <div className="relative flex-col self-stretch w-full shadow-xl bg-gray-50 dark:bg-gray-700 dark:text-white rounded-2xl no-break">
+      <Link to={`/games/${game.slug}`}>{image}</Link>
       <div className="flex items-center justify-between px-3 pt-3">
         <div className="flex space-x-2">{platforms}</div>
         <div
@@ -57,10 +54,15 @@ const GameItem: React.FC<GameItemType> = ({ game }) => {
           {game.metacritic ? game.metacritic : "no score"}
         </div>
       </div>
-      <div className="pb-3 pl-3 pr-2 mt-2 text-2xl font-semibold">
-        {game.name}
+      <div className="flex justify-between w-full pb-3 pl-3 pr-3 mt-3 space-x-3">
+        <Link to={`/games/${game.slug}`} className="text-2xl font-semibold">
+          {game.name}
+        </Link>
+        <div className="text-3xl text-gray-400 cursor-pointer hover:text-pink-500">
+          <RiHandHeartFill />
+        </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

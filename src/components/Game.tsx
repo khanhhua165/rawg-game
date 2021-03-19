@@ -7,6 +7,8 @@ import { connect, ConnectedProps } from "react-redux";
 import Spinner from "../svgs/Spinner";
 import { getPlatformIcon, metaColor, toDateString } from "../utils/helpers";
 import { IconType } from "react-icons";
+import { FaRegPlayCircle } from "react-icons/fa";
+import { RiHandHeartFill } from "react-icons/ri";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router-dom";
 import { Screenshot, SingleGameResponse } from "../types/GameType";
@@ -126,10 +128,11 @@ const Game: React.FC<
           />
           {trailer ? (
             <div
-              className="flex items-center py-0.5 justify-center mb-2 bg-gray-300 border-pink-600 rounded-lg cursor-pointer hover:bg-pink-500 dark:bg-gray-900 dark:border dark:hover:bg-pink-600 dark:text-gray-50"
+              className="flex items-center justify-center py-1 mb-2 space-x-1 bg-gray-300 border-pink-600 rounded-lg cursor-pointer hover:bg-pink-500 dark:bg-gray-900 dark:border dark:hover:bg-pink-600 dark:text-gray-50"
               onClick={switchShowTrailer}
             >
-              Game Trailer
+              <FaRegPlayCircle />
+              <div>Game Trailer</div>
             </div>
           ) : null}
           {showTrailer ? (
@@ -138,8 +141,9 @@ const Game: React.FC<
               switchShowTrailer={switchShowTrailer}
             />
           ) : null}
-          <div className="flex items-center justify-center py-0.5 bg-gray-300 border-pink-600 rounded-lg cursor-pointer hover:bg-pink-500 dark:bg-gray-900 dark:border dark:hover:bg-pink-600 dark:text-gray-50">
-            Add To Collection
+          <div className="flex items-center justify-center py-1 space-x-1 bg-gray-300 border-pink-600 rounded-lg cursor-pointer hover:bg-pink-500 dark:bg-gray-900 dark:border dark:hover:bg-pink-600 dark:text-gray-50">
+            <RiHandHeartFill />
+            <div>Add To Collection</div>
           </div>
         </div>
 
