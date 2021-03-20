@@ -18,14 +18,7 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-center space-x-9">
           <UISwitch />
           <div className="flex">
-            <a
-              href="https://rawg.io/apidocs"
-              className="italic font-semibold"
-              target="_blank"
-              rel="noreferrer"
-            >
-              RAWG API
-            </a>
+            <Link to="/signup">Signup</Link>
           </div>
         </div>
       </div>

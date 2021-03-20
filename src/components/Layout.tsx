@@ -5,6 +5,7 @@ import Body from "./Body";
 import Game from "./Game";
 import Navbar from "./Navbar";
 import Searchbar from "./Searchbar";
+import Signup from "./Signup";
 
 const Layout: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ const Layout: React.FC = () => {
           path="/games/:slugName"
           render={(props) => <Game {...props} />}
         />
+        <Route exact path="/signup" render={(props) => <Signup {...props} />} />
       </Switch>
     </div>
   );

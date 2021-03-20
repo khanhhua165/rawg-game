@@ -7,7 +7,6 @@
   @apply bg-pink-600 text-gray-50;
 }
 
-
 @layer utilities {
   @variants responsive {
     .masonry-1 {
@@ -48,4 +47,8 @@
   page-break-inside: avoid;
   break-inside: avoid;
   display: inline-flex;
+}
+
+.input-style {
+  @apply py-1 pl-3 border border-pink-600 rounded-md dark:bg-gray-700 dark:border-gray-700;
 }
