@@ -17,8 +17,13 @@ const Navbar: React.FC = () => {
         </div>
         <div className="flex items-center justify-center space-x-9">
           <UISwitch />
-          <div className="flex">
-            <Link to="/signup">Signup</Link>
+          <div className="flex space-x-3">
+            <Link to="/signup" className="font-semibold">
+              Signup
+            </Link>
+            <Link to="/signin" className="font-semibold">
+              Login
+            </Link>
           </div>
         </div>
       </div>

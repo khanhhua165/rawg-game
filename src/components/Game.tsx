@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { Screenshot, SingleGameResponse } from "../types/GameType";
 import { Trailer } from "../types/ResponseType";
 import TrailerModal from "./TrailerModal";
+import Footer from "./Footer";
 
 const mapStateToProps = (state: RootState) => ({
   games: getGames(state),
@@ -227,6 +228,7 @@ const Game: React.FC<
       <div className="hidden bg-yellow-400 border-yellow-400 dark:text-yellow-400"></div>
       <div className="hidden bg-blue-400 border-blue-400 dark:text-blue-400"></div>
       <div className="hidden bg-red-500 border-red-500 dark:text-red-500"></div>
+      <Footer />
     </div>
   );
 };

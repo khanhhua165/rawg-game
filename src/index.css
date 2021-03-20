@@ -50,5 +50,9 @@
 }
 
 .input-style {
-  @apply py-1 pl-3 border border-pink-600 rounded-md dark:bg-gray-700 dark:border-gray-700;
+  @apply py-1 pl-3 border border-pink-600 rounded-md outline-none dark:bg-gray-700 dark:border-gray-700 focus:ring-2 focus:ring-pink-700;
+}
+
+.input-error {
+  @apply mt-0.5 text-base text-red-500 flex items-center space-x-1 font-semibold;
 }

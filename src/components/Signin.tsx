@@ -3,22 +3,19 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { RouteComponentProps } from "react-router";
 import { AiOutlineWarning } from "react-icons/ai";
 
-interface SignUpInputs {
+interface SignInInputs {
   email: string;
-  name: string;
   password: string;
-  confirmPassword: string;
 }
 
-const Signup: React.FC<RouteComponentProps> = (props) => {
+const Signin: React.FC<RouteComponentProps> = (props) => {
   const {
     register,
     handleSubmit,
-    watch,
     errors,
     formState: { isSubmitting },
-  } = useForm<SignUpInputs>();
-  const onSubmit: SubmitHandler<SignUpInputs> = (data, e) => {
+  } = useForm<SignInInputs>();
+  const onSubmit: SubmitHandler<SignInInputs> = (data, e) => {
     e?.preventDefault();
     console.log(data);
   };
@@ -47,20 +44,6 @@ const Signup: React.FC<RouteComponentProps> = (props) => {
       )}
       <input
         className="mt-2 input-style"
-        name="name"
-        placeholder="Your name or nickname"
-        ref={register({
-          required: "You need to input a name",
-        })}
-      />
-      {errors.name && (
-        <p className="input-error">
-          <AiOutlineWarning />
-          <span>{errors.name.message}</span>
-        </p>
-      )}
-      <input
-        className="mt-2 input-style"
         name="password"
         type="password"
         placeholder="Password"
@@ -79,30 +62,13 @@ const Signup: React.FC<RouteComponentProps> = (props) => {
         </p>
       )}
       <input
-        className="mt-2 input-style"
-        name="confirmPassword"
-        type="password"
-        placeholder="Confirm Password"
-        ref={register({
-          required: "You must enter a password",
-          validate: (value) =>
-            value === watch("password") || "The passwords do not match",
-        })}
-      />
-      {errors.confirmPassword && (
-        <p className="input-error">
-          <AiOutlineWarning />
-          <span>{errors.confirmPassword.message}</span>
-        </p>
-      )}
-      <input
         disabled={isSubmitting}
         type="submit"
-        value="SIGN UP"
+        value="LOGIN"
         className="py-2 mt-3 bg-pink-600 border-2 border-gray-300 rounded-md cursor-pointer text-gray-50 dark:border-gray-900 hover:bg-pink-700"
       />
     </form>
   );
 };
 
-export default Signup;
+export default Signin;
