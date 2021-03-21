@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 import Searchbar from "./Searchbar";
 import Signin from "./Signin";
 import Signup from "./Signup";
+import UserProfile from "./UserProfile";
 
 const Layout: React.FC = () => {
   return (
@@ -26,6 +27,11 @@ const Layout: React.FC = () => {
         />
         <Route exact path="/signup" render={(props) => <Signup {...props} />} />
         <Route exact path="/signin" render={(props) => <Signin {...props} />} />
+        <Route
+          exact
+          path="/user/:id"
+          render={(props) => <UserProfile {...props} />}
+        />
       </Switch>
     </div>
   );

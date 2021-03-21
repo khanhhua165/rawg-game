@@ -23,7 +23,7 @@ export const signUp = (
   if (emailExisted && emailExisted.length > 0) {
     return "Email already used!!";
   }
-  const user = await (
+  const user = (
     await firebaseStore.auth.createUserWithEmailAndPassword(email, passwd)
   ).user;
   user?.updateProfile({ displayName: name }).then(() => {

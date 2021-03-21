@@ -46,10 +46,13 @@ const Navbar: React.FC<PropsFromRedux> = ({
               <>
                 <Link
                   to={`/user/${uid}`}
-                  className="flex items-center justify-center w-10 h-10 text-2xl font-semibold text-white uppercase bg-gray-800 rounded-full cursor-pointer dark:bg-pink-600"
+                  className="flex items-center space-x-2 font-semibold text-white cursor-pointer"
                   title={username}
                 >
-                  <p>{username!.slice(0, 1)}</p>
+                  <p className="flex items-center justify-center w-10 h-10 text-2xl uppercase bg-gray-800 rounded-full fitems-center dark:bg-pink-600">
+                    <span>{username?.slice(0, 1)}</span>
+                  </p>
+                  <span className="hidden md:block">{username}</span>
                 </Link>
                 <IoLogOut
                   className="text-4xl font-semibold cursor-pointer"
