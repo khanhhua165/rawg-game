@@ -1,16 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { RouteComponentProps } from "react-router";
 import { AiOutlineWarning } from "react-icons/ai";
+import { signUp } from "../actions/UserActions";
+import { connect, ConnectedProps } from "react-redux";
 
 interface SignUpInputs {
   email: string;
-  name: string;
   password: string;
+  name: string;
   confirmPassword: string;
 }
 
-const Signup: React.FC<RouteComponentProps> = (props) => {
+const mapDispatchToProps = {
+  signUp,
+};
+const connector = connect(null, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const Signup: React.FC<RouteComponentProps & PropsFromRedux> = ({ signUp }) => {
+  const [emailErr, setEmailErr] = useState<string>("");
   const {
     register,
     handleSubmit,
@@ -18,9 +27,13 @@ const Signup: React.FC<RouteComponentProps> = (props) => {
     errors,
     formState: { isSubmitting },
   } = useForm<SignUpInputs>();
-  const onSubmit: SubmitHandler<SignUpInputs> = (data, e) => {
+  const onSubmit: SubmitHandler<SignUpInputs> = async (
+    { email, password, name },
+    e
+  ) => {
     e?.preventDefault();
-    console.log(data);
+    const error = await signUp(email, password, name);
+    setEmailErr(error);
   };
   return (
     <form
@@ -39,6 +52,12 @@ const Signup: React.FC<RouteComponentProps> = (props) => {
           },
         })}
       />
+      {emailErr && (
+        <p className="input-error">
+          <AiOutlineWarning />
+          <span>{emailErr}</span>
+        </p>
+      )}
       {errors.email && (
         <p className="input-error">
           <AiOutlineWarning />
@@ -105,4 +124,4 @@ const Signup: React.FC<RouteComponentProps> = (props) => {
   );
 };
 
-export default Signup;
+export default connector(Signup);

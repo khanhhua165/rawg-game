@@ -17,5 +17,7 @@ export const FETCH_GENRES = "FETCH_GENRES";
 export const FETCH_GENRES_SUCCESS = "FETCH_GENRES_SUCCESS";
 export const FETCH_GENRE_DESCRIPTION = "FETCH_GENRE_DESCRIPTION";
 
-//* Type Actions
-export const CHANGE_TYPE = "CHANGE_TYPE";
+//* User Actions
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const UPDATE_USER = "UPDATE_USER";
+export const SIGNOUT_SUCCESS = "SIGNOUT_SUCCESS";
