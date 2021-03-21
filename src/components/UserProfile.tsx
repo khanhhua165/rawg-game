@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from "react-redux";
 import { Redirect, RouteComponentProps } from "react-router";
 import { getIsLoaded, getUid, getUsername } from "../selectors/UserSelectors";
 import { RootState } from "../store";
+import UserSetting from "./UserSetting";
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -32,7 +33,7 @@ const UserProfile: React.FC<
       </div>
       <div className="flex items-center mt-5 ml-4 space-x-4">
         <div
-          className={`text-2xl dark:text-gray-50 transition cursor-pointer hover:border-pink-500 border-b-2 border-transparent ${
+          className={`text-2xl dark:text-gray-50 transition cursor-pointer hover:border-pink-500 border-b-4 border-transparent ${
             currentTab === "likes" && "border-pink-500"
           }`}
           onClick={() => setCurrentTab("likes")}
@@ -40,7 +41,7 @@ const UserProfile: React.FC<
           Likes
         </div>
         <div
-          className={`text-2xl dark:text-gray-50 transition cursor-pointer hover:border-pink-500 border-b-2 border-transparent  ${
+          className={`text-2xl dark:text-gray-50 transition cursor-pointer hover:border-pink-500 border-b-4 border-transparent  ${
             currentTab === "settings" && "border-pink-500"
           }`}
           onClick={() => setCurrentTab("settings")}
@@ -48,6 +49,7 @@ const UserProfile: React.FC<
           Settings
         </div>
       </div>
+      {currentTab === "settings" && <UserSetting />}
     </div>
   );
 };
