@@ -31,6 +31,9 @@ const userReducer = (
     case actionTypes.LOGIN_SUCCESS: {
       return { ...state, user: action.payload!.user!, loaded: true };
     }
+    case actionTypes.UPDATE_PROFILE_SUCCESS: {
+      return { ...state, user: action.payload!.user! };
+    }
     case actionTypes.SIGNOUT_SUCCESS: {
       return { ...state, user: null, loaded: false };
     }

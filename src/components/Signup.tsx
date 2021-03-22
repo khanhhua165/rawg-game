@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { RouteComponentProps } from "react-router";
+import { Redirect, RouteComponentProps } from "react-router";
 import { AiOutlineWarning } from "react-icons/ai";
 import { signUp } from "../actions/UserActions";
 import { connect, ConnectedProps } from "react-redux";
+import { Link } from "react-router-dom";
+import { RootState } from "../store";
+import { getIsLoaded } from "../selectors/UserSelectors";
 
 interface SignUpInputs {
   email: string;
@@ -12,13 +15,22 @@ interface SignUpInputs {
   confirmPassword: string;
 }
 
+const mapStateToProps = (state: RootState) => {
+  return {
+    isLoaded: getIsLoaded(state),
+  };
+};
+
 const mapDispatchToProps = {
   signUp,
 };
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-const Signup: React.FC<RouteComponentProps & PropsFromRedux> = ({ signUp }) => {
+const Signup: React.FC<RouteComponentProps & PropsFromRedux> = ({
+  signUp,
+  isLoaded,
+}) => {
   const [emailErr, setEmailErr] = useState<string>("");
   const {
     register,
@@ -35,6 +47,9 @@ const Signup: React.FC<RouteComponentProps & PropsFromRedux> = ({ signUp }) => {
     const error = await signUp(email, password, name);
     setEmailErr(error);
   };
+  if (isLoaded) {
+    return <Redirect to="/" />;
+  }
   return (
     <form
       className="flex flex-col w-3/4 max-w-md mx-auto mt-20 sm:text-lg dark:text-white"
@@ -120,6 +135,9 @@ const Signup: React.FC<RouteComponentProps & PropsFromRedux> = ({ signUp }) => {
         value="SIGN UP"
         className="py-2 mt-3 bg-pink-600 border-2 border-gray-300 rounded-md cursor-pointer text-gray-50 dark:border-gray-900 hover:bg-pink-700"
       />
+      <Link to="/login" className="mt-1 underline dark:text-gray-50">
+        Already have an account? Login.
+      </Link>
     </form>
   );
 };

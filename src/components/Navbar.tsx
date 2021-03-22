@@ -1,7 +1,12 @@
 import React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { Link } from "react-router-dom";
-import { getIsLoaded, getUid, getUsername } from "../selectors/UserSelectors";
+import {
+  getImageURL,
+  getIsLoaded,
+  getUid,
+  getUsername,
+} from "../selectors/UserSelectors";
 import { RootState } from "../store";
 import Searchbar from "./Searchbar";
 import UISwitch from "./UISwitch";
@@ -12,6 +17,7 @@ const mapStateToProps = (state: RootState) => {
     isLoaded: getIsLoaded(state),
     uid: getUid(state),
     username: getUsername(state),
+    imageURL: getImageURL(state),
   };
 };
 
@@ -27,6 +33,7 @@ const Navbar: React.FC<PropsFromRedux> = ({
   uid,
   username,
   signOut,
+  imageURL,
 }) => {
   return (
     <div className="w-full bg-pink-600 shadow-md dark:bg-gray-900 dark:text-white">
@@ -49,9 +56,18 @@ const Navbar: React.FC<PropsFromRedux> = ({
                   className="flex items-center space-x-2 font-semibold text-white cursor-pointer"
                   title={username}
                 >
-                  <p className="flex items-center justify-center w-10 h-10 text-2xl uppercase bg-gray-800 rounded-full fitems-center dark:bg-pink-600">
-                    <span>{username?.slice(0, 1)}</span>
-                  </p>
+                  {imageURL ? (
+                    <img
+                      src={imageURL}
+                      alt={username}
+                      className="object-cover w-10 h-10 rounded-full"
+                    />
+                  ) : (
+                    <p className="flex items-center justify-center w-10 h-10 text-2xl uppercase bg-gray-800 rounded-full fitems-center dark:bg-pink-600">
+                      <span>{username?.slice(0, 1)}</span>
+                    </p>
+                  )}
+
                   <span className="hidden md:block">{username}</span>
                 </Link>
                 <IoLogOut
