@@ -5,6 +5,7 @@ import imageCompression from "browser-image-compression";
 import { getImageURL, getUsername } from "../selectors/UserSelectors";
 import { updateProfileData } from "../actions/UserActions";
 import { RootState } from "../store";
+import { AiOutlineWarning } from "react-icons/ai";
 
 const mapStateToProps = (state: RootState) => ({
   username: getUsername(state),
@@ -81,23 +82,28 @@ const ProfileInfoSetting: React.FC<PropsFromRedux> = ({
         ) : (
           <div className="bg-gray-500 rounded-full w-28 h-28"></div>
         )}
-        <div className="mt-3">Username</div>
+        <div className="mt-3">Display Name</div>
         <input
           name="name"
           defaultValue={username}
-          className="py-1 pl-2 mt-1 text-lg border border-pink-500 outline-none w-72 rounded-xl dark:bg-gray-800"
+          className="input-style"
           ref={register({ required: "You cannot leave this field empty" })}
         />
-        {errors.name && <p className="input-error">{errors.name.message}</p>}
+        {errors.name && (
+          <p className="input-error">
+            <AiOutlineWarning />
+            <span>{errors.name.message}</span>
+          </p>
+        )}
         <div className="flex items-center mt-3 space-x-4">
           <button
-            className="p-2 bg-pink-600 outline-none rounded-xl"
+            className="p-2 bg-pink-600 outline-none rounded-xl hover:bg-pink-700"
             onClick={() => imageUploadRef.current?.click()}
           >
             Choose Image
           </button>
           <input
-            className="flex justify-start p-2 bg-pink-600 outline-none cursor-pointer rounded-xl"
+            className="flex justify-start p-2 bg-pink-600 outline-none cursor-pointer rounded-xl hover:bg-pink-700"
             type="submit"
             value="Save Changes"
             disabled={isSubmitting}

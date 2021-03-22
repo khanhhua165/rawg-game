@@ -5,6 +5,8 @@ import Layout from "./components/Layout";
 import { getIsLightMode } from "./selectors/AppSelectors";
 import { RootState } from "./store";
 import { switchAuthState } from "./actions/UserActions";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -30,6 +32,7 @@ const App: React.FC<PropsFromRedux> = ({ isLightMode, switchAuthState }) => {
         <style>{`body { background-color: ${backgroundColor}; }`}</style>
       </Helmet>
       <Layout />
+      <ToastContainer />
     </div>
   );
 };

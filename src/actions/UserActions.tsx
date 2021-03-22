@@ -1,6 +1,8 @@
 import firebaseStore from "../firebase/config";
 import firebase from "firebase";
 import { AppThunk } from "../types/ThunkType";
+import { toast } from "react-toastify";
+
 import {
   LOGIN_SUCCESS,
   SIGNOUT_SUCCESS,
@@ -77,6 +79,7 @@ export const updateProfileData = (
   imageFile: File | null = null
 ): AppThunk => async (dispatch, getState) => {
   const state = getState();
+  const themeMode = state.app.isLightMode;
   const storage = firebaseStore.storage.ref();
   const { name, uid, photoURL } = state.user.user as User;
   let imageURL: string | null = photoURL;
@@ -92,5 +95,68 @@ export const updateProfileData = (
   if (newName === name && imageURL) {
     await user?.updateProfile({ photoURL: imageURL });
     dispatch(updateSuccess({ name, uid, photoURL: imageURL }));
+  }
+  if (themeMode) {
+    toast("🍉 Profile changed!", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  } else {
+    toast.dark("🍉 Profile changed!!", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  }
+};
+
+export const changePassword = (
+  oldPass: string,
+  newPass: string
+): AppThunk<Promise<string>> => async (dispatch, getState) => {
+  const state = getState();
+  const themeMode = state.app.isLightMode;
+  const user = firebaseStore.auth.currentUser;
+  const email = user?.email;
+  const identity = firebaseStore.EmailAuthProvider.credential(email!, oldPass);
+  try {
+    const res = await user?.reauthenticateWithCredential(identity);
+    if (res) {
+      await user?.updatePassword(newPass);
+    }
+    if (themeMode) {
+      toast("🍉 Password changed sucessfully!", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.dark("🍉 Password changed sucessfully!", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+
+    return "";
+  } catch (err: unknown) {
+    return "Wrong password!!";
   }
 };
