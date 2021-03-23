@@ -135,7 +135,7 @@ const Signup: React.FC<RouteComponentProps & PropsFromRedux> = ({
         value="SIGN UP"
         className="py-2 mt-3 bg-pink-600 border-2 border-gray-300 rounded-md cursor-pointer text-gray-50 dark:border-gray-900 hover:bg-pink-700"
       />
-      <Link to="/login" className="mt-1 underline dark:text-gray-50">
+      <Link to="/signin" className="mt-1 underline dark:text-gray-50">
         Already have an account? Login.
       </Link>
     </form>

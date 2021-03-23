@@ -27,7 +27,9 @@ export const signUp = (
   email: string,
   passwd: string,
   name: string
-): AppThunk<Promise<string>> => async (dispatch) => {
+): AppThunk<Promise<string>> => async (dispatch, getState) => {
+  const state = getState();
+  const themeMode = state.app.isLightMode;
   const emailExisted = await firebaseStore.auth.fetchSignInMethodsForEmail(
     email
   );
@@ -45,11 +47,35 @@ export const signUp = (
         name: user.displayName!,
       })
     );
+    if (themeMode) {
+      toast(`🍉 Welcome ${user.displayName}!`, {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.dark(`🍉 Welcome ${user.displayName}!`, {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   });
   return "";
 };
 
-export const switchAuthState = (): AppThunk<() => void> => (dispatch) => {
+export const switchAuthState = (): AppThunk<() => void> => (
+  dispatch,
+  getState
+) => {
   return firebaseStore.auth.onAuthStateChanged((user) => {
     if (user) {
       const currentUser = {
@@ -159,4 +185,48 @@ export const changePassword = (
   } catch (err: unknown) {
     return "Wrong password!!";
   }
+};
+
+export const resetPassword = (email: string): AppThunk => (
+  dispatch,
+  getState
+) => {
+  const state = getState();
+  const themeMode = state.app.isLightMode;
+  firebaseStore.auth
+    .sendPasswordResetEmail(email)
+    .then(() => {
+      if (themeMode) {
+        toast("🍉 Email sent!", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        toast.dark("🍉 Email sent!", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    })
+    .catch((e: unknown) => {
+      toast.error("🍉 There is no account with that email!", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    });
 };

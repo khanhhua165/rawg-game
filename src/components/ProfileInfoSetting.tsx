@@ -98,7 +98,10 @@ const ProfileInfoSetting: React.FC<PropsFromRedux> = ({
         <div className="flex items-center mt-3 space-x-4">
           <button
             className="p-2 bg-pink-600 outline-none rounded-xl hover:bg-pink-700"
-            onClick={() => imageUploadRef.current?.click()}
+            onClick={(e) => {
+              e.preventDefault();
+              imageUploadRef.current?.click();
+            }}
           >
             Choose Image
           </button>

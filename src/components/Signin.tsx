@@ -106,11 +106,11 @@ const Signin: React.FC<RouteComponentProps & PropsFromRedux> = ({
         </p>
       )}
 
-      <Link to="/login" className="mt-1 underline dark:text-gray-50">
+      <Link to="/signup" className="mt-1 underline dark:text-gray-50">
         Don't have an account yet? Sign up.
       </Link>
       <Link
-        to="/passwd-recovery"
+        to="/password-recovery"
         className="mt-0.5 underline dark:text-gray-50"
       >
         Forgot your password?
