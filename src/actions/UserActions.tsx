@@ -94,7 +94,6 @@ export const switchAuthState = (): AppThunk<() => void> => (
           dispatch(fetchCollectionSuccess(result.data() as GamesBySlug))
         )
         .catch((e: unknown) => {
-          console.log("hello");
           console.log(e);
         });
     } else {
