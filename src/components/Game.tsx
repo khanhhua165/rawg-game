@@ -185,7 +185,7 @@ const Game: React.FC<
             onClick={handleToggleClick}
             className={`flex items-center justify-center py-1 space-x-1 ${
               collection?.[game.slug]
-                ? "bg-pink-500 dark:bg-pink-600"
+                ? "bg-pink-500 dark:bg-pink-600 hover:bg-pink-600 dark:hover:bg-pink-700"
                 : "bg-gray-300 hover:bg-pink-500 dark:bg-gray-900 dark:hover:bg-pink-600"
             }  border-pink-600 rounded-lg cursor-pointer dark:border dark:text-gray-50`}
           >
