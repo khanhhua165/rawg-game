@@ -10,6 +10,7 @@ import {
 import { SiNintendo, SiAtari, SiSega } from "react-icons/si";
 import { HiDesktopComputer } from "react-icons/hi";
 import { BiGame } from "react-icons/bi";
+import { ToastOptions, ToastPosition } from "react-toastify";
 type BooleanString = string | undefined | null;
 
 export const toBoolean = (args: BooleanString) => {
@@ -83,3 +84,15 @@ export const toDateString = (date: string) => {
   const [year, month, day] = date.split("-") as [string, string, string];
   return `${Months[+month - 1]} ${day}, ${year}`;
 };
+
+export const toastOption = (
+  position: string = "bottom-right"
+): ToastOptions => ({
+  position: position as ToastPosition,
+  autoClose: 3000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+});

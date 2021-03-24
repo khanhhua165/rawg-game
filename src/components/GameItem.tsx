@@ -1,15 +1,46 @@
 import React from "react";
 import { IconType } from "react-icons/lib";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
-import { GameType } from "../types/GameType";
-import { getPlatformIcon, metaColor } from "../utils/helpers";
-import { RiHandHeartFill } from "react-icons/ri";
+import { GameType, SingleGameResponse } from "../types/GameType";
+import { getPlatformIcon, metaColor, toastOption } from "../utils/helpers";
+import { RiHandHeartFill, RiLoader3Fill } from "react-icons/ri";
+import { getIsLoaded, getIsToggling } from "../selectors/UserSelectors";
+import { RootState } from "../store";
+import { connect, ConnectedProps } from "react-redux";
+import {
+  toggleCollection,
+  startToggleCollection,
+} from "../actions/UserActions";
+import { toast } from "react-toastify";
 interface GameItemType {
-  game: GameType;
+  game: GameType | SingleGameResponse;
+  inCollection: boolean;
 }
 
-const GameItem: React.FC<GameItemType> = ({ game }) => {
+const mapStateToProps = (state: RootState) => ({
+  isUserLoaded: getIsLoaded(state),
+  isToggling: getIsToggling(state),
+});
+
+const mapDispatchToProps = {
+  toggleCollection,
+  startToggleCollection,
+};
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const GameItem: React.FC<
+  GameItemType & PropsFromRedux & RouteComponentProps
+> = ({
+  game,
+  inCollection,
+  toggleCollection,
+  isUserLoaded,
+  history,
+  isToggling,
+  startToggleCollection,
+}) => {
   let image: JSX.Element;
   if (game.background_image) {
     image = (
@@ -42,7 +73,20 @@ const GameItem: React.FC<GameItemType> = ({ game }) => {
   }
 
   const metaStyle = metaColor(game.metacritic);
-
+  const handleToggleClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    if (!isUserLoaded) {
+      toast.warning(
+        "🍉 Login to add game collection!",
+        toastOption("top-center")
+      );
+      history.push("/signin");
+    } else {
+      startToggleCollection();
+      toggleCollection(game.slug, inCollection ? null : game);
+    }
+  };
   return (
     <div className="relative flex-col self-stretch w-full shadow-xl bg-gray-50 dark:bg-gray-700 dark:text-white rounded-2xl no-break">
       <Link to={`/games/${game.slug}`}>{image}</Link>
@@ -58,12 +102,23 @@ const GameItem: React.FC<GameItemType> = ({ game }) => {
         <Link to={`/games/${game.slug}`} className="text-2xl font-semibold">
           {game.name}
         </Link>
-        <div className="text-3xl text-gray-400 cursor-pointer hover:text-pink-500">
-          <RiHandHeartFill />
-        </div>
+        {isToggling ? (
+          <RiLoader3Fill className="text-3xl text-gray-600 duration-75 animate-spin dark:text-gray-100" />
+        ) : (
+          <div
+            className={`text-3xl cursor-pointer ${
+              inCollection
+                ? "text-pink-500"
+                : "text-gray-400 hover:text-pink-500"
+            }`}
+            onClick={handleToggleClick}
+          >
+            <RiHandHeartFill />
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default GameItem;
+export default connector(withRouter(GameItem));

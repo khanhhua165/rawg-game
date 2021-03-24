@@ -5,28 +5,60 @@ import { RootState } from "../store";
 import { fetchGameIfNeeded } from "../actions/GameActions";
 import { connect, ConnectedProps } from "react-redux";
 import Spinner from "../svgs/Spinner";
-import { getPlatformIcon, metaColor, toDateString } from "../utils/helpers";
+import {
+  getPlatformIcon,
+  metaColor,
+  toastOption,
+  toDateString,
+} from "../utils/helpers";
 import { IconType } from "react-icons";
 import { FaRegPlayCircle } from "react-icons/fa";
-import { RiHandHeartFill } from "react-icons/ri";
+import { RiHandHeartFill, RiLoader3Fill } from "react-icons/ri";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router-dom";
 import { Screenshot, SingleGameResponse } from "../types/GameType";
 import { Trailer } from "../types/ResponseType";
 import TrailerModal from "./TrailerModal";
 import Footer from "./Footer";
+import {
+  getCollection,
+  getIsLoaded,
+  getIsToggling,
+} from "../selectors/UserSelectors";
+import {
+  toggleCollection,
+  startToggleCollection,
+} from "../actions/UserActions";
+import { toast } from "react-toastify";
 
 const mapStateToProps = (state: RootState) => ({
   games: getGames(state),
+  isUserLoaded: getIsLoaded(state),
+  collection: getCollection(state),
+  isToggling: getIsToggling(state),
 });
 
-const mapDispatchToProps = { fetchGameIfNeeded };
+const mapDispatchToProps = {
+  fetchGameIfNeeded,
+  toggleCollection,
+  startToggleCollection,
+};
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const Game: React.FC<
   RouteComponentProps<{ slugName: string }> & PropsFromRedux
-> = ({ fetchGameIfNeeded, match, games }) => {
+> = ({
+  fetchGameIfNeeded,
+  match,
+  games,
+  history,
+  isUserLoaded,
+  toggleCollection,
+  collection,
+  startToggleCollection,
+  isToggling,
+}) => {
   const [isTruncated, setIsTruncated] = useState<boolean>(true);
   const [showTrailer, setShowTrailer] = useState<boolean>(false);
   useEffect(() => {
@@ -118,6 +150,20 @@ const Game: React.FC<
   const switchShowTrailer = () => {
     setShowTrailer((showTrailer) => !showTrailer);
   };
+  const handleToggleClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    if (!isUserLoaded) {
+      toast.warning(
+        "🍉 Login to add game collection!",
+        toastOption("top-center")
+      );
+      history.push("/signin");
+    } else {
+      startToggleCollection();
+      toggleCollection(game.slug, collection[game.slug] ? null : game);
+    }
+  };
   return (
     <div className="w-11/12 mx-auto mt-4 text-sm md:text-base">
       <div className="flex flex-col justify-center sm:space-x-6 sm:flex-row">
@@ -142,9 +188,26 @@ const Game: React.FC<
               switchShowTrailer={switchShowTrailer}
             />
           ) : null}
-          <div className="flex items-center justify-center py-1 space-x-1 bg-gray-300 border-pink-600 rounded-lg cursor-pointer hover:bg-pink-500 dark:bg-gray-900 dark:border dark:hover:bg-pink-600 dark:text-gray-50">
-            <RiHandHeartFill />
-            <div>Add To Collection</div>
+
+          <div
+            onClick={handleToggleClick}
+            className={`flex items-center justify-center py-1 space-x-1 ${
+              collection[game.slug]
+                ? "bg-pink-500 dark:bg-pink-600"
+                : "bg-gray-300 hover:bg-pink-500 dark:bg-gray-900 dark:hover:bg-pink-600"
+            }  border-pink-600 rounded-lg cursor-pointer dark:border dark:text-gray-50`}
+          >
+            {isToggling ? (
+              <RiLoader3Fill className="duration-75 animate-spin" />
+            ) : (
+              <RiHandHeartFill />
+            )}
+
+            <div>
+              {collection[game.slug]
+                ? "Remove from Collection"
+                : "Add to Collection"}
+            </div>
           </div>
         </div>
 

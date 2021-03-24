@@ -1,14 +1,19 @@
 import firebaseStore from "../firebase/config";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import { AppThunk } from "../types/ThunkType";
 import { toast } from "react-toastify";
 
 import {
+  FETCH_USER_COLLECTION_SUCCESS,
   LOGIN_SUCCESS,
   SIGNOUT_SUCCESS,
+  TOGGLE_COLLECTION,
+  TOGGLE_COLLECTION_SUCCESS,
   UPDATE_PROFILE_SUCCESS,
 } from "../constants/ActionTypes";
-import { User } from "../reducers/UserReducer";
+import { GamesBySlug, User } from "../reducers/UserReducer";
+import { GameType, SingleGameResponse } from "../types/GameType";
+import { toastOption } from "../utils/helpers";
 
 const loginSuccess = (user: User) => ({
   type: LOGIN_SUCCESS,
@@ -21,6 +26,23 @@ const updateSuccess = (user: User) => ({
 
 const clearUser = () => ({
   type: SIGNOUT_SUCCESS,
+});
+
+const fetchCollectionSuccess = (collection: GamesBySlug) => ({
+  type: FETCH_USER_COLLECTION_SUCCESS,
+  payload: { collection },
+});
+
+export const startToggleCollection = () => ({
+  type: TOGGLE_COLLECTION,
+});
+
+const toggleCollectionSuccess = (
+  slug: string,
+  like: GameType | SingleGameResponse | null
+) => ({
+  type: TOGGLE_COLLECTION_SUCCESS,
+  payload: { slug, like },
 });
 
 export const signUp = (
@@ -48,25 +70,9 @@ export const signUp = (
       })
     );
     if (themeMode) {
-      toast(`🍉 Welcome ${user.displayName}!`, {
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast(`🍉 Welcome ${user.displayName}!`, toastOption("top-center"));
     } else {
-      toast.dark(`🍉 Welcome ${user.displayName}!`, {
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.dark(`🍉 Welcome ${user.displayName}!`, toastOption("top-center"));
     }
   });
   return "";
@@ -84,6 +90,14 @@ export const switchAuthState = (): AppThunk<() => void> => (
         name: user.displayName!,
       };
       dispatch(loginSuccess(currentUser));
+      firebaseStore.firestore
+        .collection("collection")
+        .doc(user.uid)
+        .get()
+        .then((result) =>
+          dispatch(fetchCollectionSuccess(result.data() as GamesBySlug))
+        )
+        .catch((e) => console.log(e));
     } else {
       dispatch(clearUser());
     }
@@ -123,25 +137,9 @@ export const updateProfileData = (
     dispatch(updateSuccess({ name, uid, photoURL: imageURL }));
   }
   if (themeMode) {
-    toast("🍉 Profile changed!", {
-      position: "bottom-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    toast("🍉 Profile changed!", toastOption());
   } else {
-    toast.dark("🍉 Profile changed!!", {
-      position: "bottom-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    toast.dark("🍉 Profile changed!!", toastOption());
   }
 };
 
@@ -160,25 +158,9 @@ export const changePassword = (
       await user?.updatePassword(newPass);
     }
     if (themeMode) {
-      toast("🍉 Password changed sucessfully!", {
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast("🍉 Password changed sucessfully!", toastOption());
     } else {
-      toast.dark("🍉 Password changed sucessfully!", {
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.dark("🍉 Password changed sucessfully!", toastOption());
     }
 
     return "";
@@ -197,36 +179,39 @@ export const resetPassword = (email: string): AppThunk => (
     .sendPasswordResetEmail(email)
     .then(() => {
       if (themeMode) {
-        toast("🍉 Email sent!", {
-          position: "bottom-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast("🍉 Email sent!", toastOption());
       } else {
-        toast.dark("🍉 Email sent!", {
-          position: "bottom-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.dark("🍉 Email sent!", toastOption());
       }
     })
     .catch((e: unknown) => {
-      toast.error("🍉 There is no account with that email!", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.error("🍉 There is no account with that email!", toastOption());
     });
+};
+
+export const toggleCollection = (
+  slug: string,
+  game: GameType | SingleGameResponse | null
+): AppThunk => (dispatch) => {
+  const uid = firebaseStore.auth.currentUser!.uid;
+  const userCollection = firebaseStore.firestore
+    .collection("collection")
+    .doc(uid);
+  if (!game) {
+    userCollection
+      .update({ [slug]: firebase.firestore.FieldValue.delete() })
+      .then(() => {
+        dispatch(toggleCollectionSuccess(slug, game));
+      })
+      .catch((e: unknown) => {
+        console.log(e);
+      });
+  } else {
+    userCollection
+      .set({ [slug]: game }, { merge: true })
+      .then(() => {
+        dispatch(toggleCollectionSuccess(slug, game));
+      })
+      .catch((e: unknown) => console.log(e));
+  }
 };
