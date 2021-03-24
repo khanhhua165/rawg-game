@@ -38,6 +38,10 @@ const Layout: React.FC = () => {
           path="/user/:id"
           render={(props) => <UserProfile {...props} />}
         />
+        <Route
+          path="*"
+          render={() => <h1 className="mt-12 ml-6">Nothing Here!</h1>}
+        />
       </Switch>
     </div>
   );
