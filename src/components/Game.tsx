@@ -150,7 +150,7 @@ const Game: React.FC<
       setTogglingLike(true);
       toggleCollection(
         game.slug,
-        collection[game.slug] ? null : game,
+        collection?.[game.slug] ? null : game,
         "normal",
         setTogglingLike
       );
@@ -184,7 +184,7 @@ const Game: React.FC<
           <div
             onClick={handleToggleClick}
             className={`flex items-center justify-center py-1 space-x-1 ${
-              collection[game.slug]
+              collection?.[game.slug]
                 ? "bg-pink-500 dark:bg-pink-600"
                 : "bg-gray-300 hover:bg-pink-500 dark:bg-gray-900 dark:hover:bg-pink-600"
             }  border-pink-600 rounded-lg cursor-pointer dark:border dark:text-gray-50`}
@@ -196,7 +196,7 @@ const Game: React.FC<
             )}
 
             <div>
-              {collection[game.slug]
+              {collection?.[game.slug]
                 ? "Remove from Collection"
                 : "Add to Collection"}
             </div>

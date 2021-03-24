@@ -32,7 +32,7 @@ const GamesDisplayed: React.FC<
     <GameItem
       game={game}
       key={game.id}
-      inCollection={collection[game.slug] ? true : false}
+      inCollection={collection?.[game.slug] ? true : false}
       type={type}
     />
   ));
