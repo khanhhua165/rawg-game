@@ -22,6 +22,7 @@ const ProfilePasswordSetting: React.FC<PropsFromRedux> = ({
     handleSubmit,
     errors,
     watch,
+    reset,
     formState: { isSubmitting },
   } = useForm<PasswordInputs>();
   const onSubmit: SubmitHandler<PasswordInputs> = async (
@@ -31,6 +32,9 @@ const ProfilePasswordSetting: React.FC<PropsFromRedux> = ({
     e?.preventDefault();
     const err = await changePassword(oldPassword, newPassword);
     setPassErr(err);
+    if (err === "") {
+      reset();
+    }
   };
 
   return (
@@ -100,12 +104,13 @@ const ProfilePasswordSetting: React.FC<PropsFromRedux> = ({
             <span>{errors.newPasswordConfirm.message}</span>
           </p>
         )}
-        <input
-          className="flex justify-start w-full p-2 mt-3 bg-pink-600 outline-none cursor-pointer rounded-xl hover:bg-pink-700"
+        <button
+          className="flex justify-center w-full p-2 mt-3 bg-pink-600 outline-none cursor-pointer rounded-xl hover:bg-pink-700"
           type="submit"
-          value="Save Changes"
           disabled={isSubmitting}
-        />
+        >
+          Save Changes
+        </button>
       </form>
     </div>
   );

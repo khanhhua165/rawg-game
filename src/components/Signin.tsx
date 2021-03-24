@@ -93,12 +93,13 @@ const Signin: React.FC<RouteComponentProps & PropsFromRedux> = ({
           <span>{errors.password.message}</span>
         </p>
       )}
-      <input
+      <button
         disabled={isSubmitting}
         type="submit"
-        value="LOGIN"
-        className="py-2 mt-3 bg-pink-600 border-2 border-gray-300 rounded-md cursor-pointer text-gray-50 dark:border-gray-900 hover:bg-pink-700"
-      />
+        className="flex justify-center py-2 mt-3 bg-pink-600 border-2 border-gray-300 rounded-md cursor-pointer text-gray-50 dark:border-gray-900 hover:bg-pink-700"
+      >
+        LOGIN
+      </button>
       {signInErr && (
         <p className="input-error">
           <AiOutlineWarning />
