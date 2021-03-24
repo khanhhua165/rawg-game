@@ -4,6 +4,13 @@
 
 ### You can find the demo project live [here](https://lil-rawg.netlify.app).
 
+## Features
+
+- Infinite loading.
+- Dark mode enabled.
+- Full authentication system.
+- Users can add/remove their favorite games.
+
 ### Installation
 
 ```bash

@@ -73,7 +73,7 @@ const UserProfile: React.FC<
         <GamesDisplayed
           isLoading={false}
           hasNext={false}
-          games={Object.values(collection)}
+          games={collection ? Object.values(collection) : []}
           type="user"
         />
       )}
