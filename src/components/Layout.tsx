@@ -40,7 +40,11 @@ const Layout: React.FC = () => {
         />
         <Route
           path="*"
-          render={() => <h1 className="mt-12 ml-6">Nothing Here!</h1>}
+          render={() => (
+            <h1 className="mt-12 ml-6 text-6xl font-bold dark:text-gray-50">
+              Nothing Here!
+            </h1>
+          )}
         />
       </Switch>
     </div>
