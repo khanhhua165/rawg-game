@@ -12,13 +12,11 @@ export interface GamesBySlug {
 interface UserState {
   user: User | null;
   loaded: boolean;
-  togglingCollection: boolean;
   collection: GamesBySlug;
 }
 const initialState = {
   user: null,
   loaded: false,
-  togglingCollection: false,
   collection: {},
 };
 
@@ -45,9 +43,6 @@ const userReducer = (
     case actionTypes.UPDATE_PROFILE_SUCCESS: {
       return { ...state, user: action.payload!.user! };
     }
-    case actionTypes.TOGGLE_COLLECTION: {
-      return { ...state, togglingCollection: true };
-    }
     case actionTypes.TOGGLE_COLLECTION_SUCCESS: {
       if (!action.payload!.like!) {
         const oldCollection = { ...state.collection };
@@ -55,12 +50,10 @@ const userReducer = (
         return {
           ...state,
           collection: { ...oldCollection },
-          togglingCollection: false,
         };
       }
       return {
         ...state,
-        togglingCollection: false,
         collection: {
           ...state.collection,
           [action.payload!.slug!]: action.payload!.like!,

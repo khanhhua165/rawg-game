@@ -18,8 +18,9 @@ const GamesDisplayed: React.FC<
     games: (GameType | SingleGameResponse)[];
     isLoading: boolean;
     hasNext: boolean;
+    type: string;
   } & PropsFromRedux
-> = ({ games, isLoading, hasNext, collection }) => {
+> = ({ games, isLoading, hasNext, collection, type }) => {
   if (games.length === 0) {
     return (
       <div className="mx-auto mt-5 text-2xl font-semibold sm:text-3xl md:text-4xl dark:text-white">
@@ -32,6 +33,7 @@ const GamesDisplayed: React.FC<
       game={game}
       key={game.id}
       inCollection={collection[game.slug] ? true : false}
+      type={type}
     />
   ));
   return (
@@ -47,7 +49,7 @@ const GamesDisplayed: React.FC<
           </div>
         </div>
       ) : null}
-      {!hasNext ? (
+      {!hasNext && type === "normal" ? (
         <div className="mx-auto my-4 text-5xl dark:text-white">
           NO MORE GAMES...
         </div>

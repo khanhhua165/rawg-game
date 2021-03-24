@@ -39,12 +39,12 @@ const UserProfile: React.FC<
           <div className="p-1 rounded-full bg-gradient-to-tr from-yellow-400 to-pink-600">
             <img
               src={imageURL}
-              className="object-cover w-24 h-24 transform rounded-full hover:rotate-6"
+              className="object-cover transform rounded-full w-36 h-36 hover:rotate-6"
               alt={username}
             />
           </div>
         ) : (
-          <div className="flex items-center justify-center w-24 h-24 text-6xl uppercase bg-gray-800 rounded-full dark:bg-pink-600 text-gray-50">
+          <div className="flex items-center justify-center text-6xl uppercase bg-gray-800 rounded-full w-36 h-36 dark:bg-pink-600 text-gray-50">
             {username?.slice(0, 1)}
           </div>
         )}
@@ -58,7 +58,7 @@ const UserProfile: React.FC<
           }`}
           onClick={() => setCurrentTab("likes")}
         >
-          Likes
+          Your Collection
         </div>
         <div
           className={`text-2xl dark:text-gray-50 transition cursor-pointer hover:border-pink-500 border-b-4 border-transparent  ${
@@ -74,9 +74,11 @@ const UserProfile: React.FC<
           isLoading={false}
           hasNext={false}
           games={Object.values(collection)}
+          type="user"
         />
       )}
       {currentTab === "settings" && <UserSetting />}
+      <div className="mt-6"></div>
     </div>
   );
 };

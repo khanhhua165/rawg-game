@@ -7,7 +7,6 @@ import {
   FETCH_USER_COLLECTION_SUCCESS,
   LOGIN_SUCCESS,
   SIGNOUT_SUCCESS,
-  TOGGLE_COLLECTION,
   TOGGLE_COLLECTION_SUCCESS,
   UPDATE_PROFILE_SUCCESS,
 } from "../constants/ActionTypes";
@@ -31,10 +30,6 @@ const clearUser = () => ({
 const fetchCollectionSuccess = (collection: GamesBySlug) => ({
   type: FETCH_USER_COLLECTION_SUCCESS,
   payload: { collection },
-});
-
-export const startToggleCollection = () => ({
-  type: TOGGLE_COLLECTION,
 });
 
 const toggleCollectionSuccess = (
@@ -78,6 +73,7 @@ export const signUp = (
   return "";
 };
 
+//* A listener for when user log in or sign out
 export const switchAuthState = (): AppThunk<() => void> => (
   dispatch,
   getState
@@ -191,7 +187,9 @@ export const resetPassword = (email: string): AppThunk => (
 
 export const toggleCollection = (
   slug: string,
-  game: GameType | SingleGameResponse | null
+  game: GameType | SingleGameResponse | null,
+  type: string,
+  setToggling: (isToggling: boolean) => void
 ): AppThunk => (dispatch) => {
   const uid = firebaseStore.auth.currentUser!.uid;
   const userCollection = firebaseStore.firestore
@@ -205,6 +203,11 @@ export const toggleCollection = (
       })
       .catch((e: unknown) => {
         console.log(e);
+      })
+      .finally(() => {
+        if (type === "normal") {
+          setToggling(false);
+        }
       });
   } else {
     userCollection
@@ -212,6 +215,11 @@ export const toggleCollection = (
       .then(() => {
         dispatch(toggleCollectionSuccess(slug, game));
       })
-      .catch((e: unknown) => console.log(e));
+      .catch((e: unknown) => console.log(e))
+      .finally(() => {
+        if (type === "normal") {
+          setToggling(false);
+        }
+      });
   }
 };

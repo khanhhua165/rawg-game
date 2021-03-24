@@ -13,6 +13,7 @@ import { BiGame } from "react-icons/bi";
 import { ToastOptions, ToastPosition } from "react-toastify";
 type BooleanString = string | undefined | null;
 
+//* Get boolean value from LocalStorage
 export const toBoolean = (args: BooleanString) => {
   switch (args) {
     case "false":
@@ -89,7 +90,7 @@ export const toastOption = (
   position: string = "bottom-right"
 ): ToastOptions => ({
   position: position as ToastPosition,
-  autoClose: 3000,
+  autoClose: 5000,
   hideProgressBar: false,
   closeOnClick: true,
   pauseOnHover: true,

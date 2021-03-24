@@ -20,29 +20,17 @@ import { Screenshot, SingleGameResponse } from "../types/GameType";
 import { Trailer } from "../types/ResponseType";
 import TrailerModal from "./TrailerModal";
 import Footer from "./Footer";
-import {
-  getCollection,
-  getIsLoaded,
-  getIsToggling,
-} from "../selectors/UserSelectors";
-import {
-  toggleCollection,
-  startToggleCollection,
-} from "../actions/UserActions";
+import { getCollection, getIsLoaded } from "../selectors/UserSelectors";
+import { toggleCollection } from "../actions/UserActions";
 import { toast } from "react-toastify";
 
 const mapStateToProps = (state: RootState) => ({
   games: getGames(state),
   isUserLoaded: getIsLoaded(state),
   collection: getCollection(state),
-  isToggling: getIsToggling(state),
 });
 
-const mapDispatchToProps = {
-  fetchGameIfNeeded,
-  toggleCollection,
-  startToggleCollection,
-};
+const mapDispatchToProps = { fetchGameIfNeeded, toggleCollection };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
@@ -56,11 +44,10 @@ const Game: React.FC<
   isUserLoaded,
   toggleCollection,
   collection,
-  startToggleCollection,
-  isToggling,
 }) => {
   const [isTruncated, setIsTruncated] = useState<boolean>(true);
   const [showTrailer, setShowTrailer] = useState<boolean>(false);
+  const [togglingLike, setTogglingLike] = useState<boolean>(false);
   useEffect(() => {
     fetchGameIfNeeded(match.params.slugName);
   }, [fetchGameIfNeeded, match.params.slugName]);
@@ -160,8 +147,13 @@ const Game: React.FC<
       );
       history.push("/signin");
     } else {
-      startToggleCollection();
-      toggleCollection(game.slug, collection[game.slug] ? null : game);
+      setTogglingLike(true);
+      toggleCollection(
+        game.slug,
+        collection[game.slug] ? null : game,
+        "normal",
+        setTogglingLike
+      );
     }
   };
   return (
@@ -197,7 +189,7 @@ const Game: React.FC<
                 : "bg-gray-300 hover:bg-pink-500 dark:bg-gray-900 dark:hover:bg-pink-600"
             }  border-pink-600 rounded-lg cursor-pointer dark:border dark:text-gray-50`}
           >
-            {isToggling ? (
+            {togglingLike ? (
               <RiLoader3Fill className="duration-75 animate-spin" />
             ) : (
               <RiHandHeartFill />

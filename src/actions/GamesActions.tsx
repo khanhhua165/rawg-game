@@ -30,12 +30,13 @@ const storeGames = (
     },
   };
 };
-
+//* Cancel infinite loading when there is no more game
 const fetchGamesNoMore = (queryType: string, queryString: string) => ({
   type: FETCH_GAMES_NOMORE,
   payload: { queryType, queryString },
 });
 
+//* Clear games data from page 2 to deload UI
 const clearGames = (queryType: string, queryString: string) => ({
   type: RESET_GAMES_DATA,
   payload: { queryType, queryString },

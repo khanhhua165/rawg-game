@@ -76,6 +76,7 @@ const Games: React.FC<
           games={gamesDisplayed}
           isLoading={loading}
           hasNext={hasNext}
+          type="normal"
         />
       </div>
       <ScrollTop />

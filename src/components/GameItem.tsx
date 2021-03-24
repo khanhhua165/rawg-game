@@ -1,46 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { IconType } from "react-icons/lib";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import { GameType, SingleGameResponse } from "../types/GameType";
 import { getPlatformIcon, metaColor, toastOption } from "../utils/helpers";
 import { RiHandHeartFill, RiLoader3Fill } from "react-icons/ri";
-import { getIsLoaded, getIsToggling } from "../selectors/UserSelectors";
+import { getIsLoaded } from "../selectors/UserSelectors";
 import { RootState } from "../store";
 import { connect, ConnectedProps } from "react-redux";
-import {
-  toggleCollection,
-  startToggleCollection,
-} from "../actions/UserActions";
+import { toggleCollection } from "../actions/UserActions";
 import { toast } from "react-toastify";
 interface GameItemType {
   game: GameType | SingleGameResponse;
   inCollection: boolean;
+  type: string;
 }
 
 const mapStateToProps = (state: RootState) => ({
   isUserLoaded: getIsLoaded(state),
-  isToggling: getIsToggling(state),
 });
 
 const mapDispatchToProps = {
   toggleCollection,
-  startToggleCollection,
 };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const GameItem: React.FC<
   GameItemType & PropsFromRedux & RouteComponentProps
-> = ({
-  game,
-  inCollection,
-  toggleCollection,
-  isUserLoaded,
-  history,
-  isToggling,
-  startToggleCollection,
-}) => {
+> = ({ game, inCollection, toggleCollection, isUserLoaded, history, type }) => {
+  const [togglingLike, setTogglingLike] = useState<boolean>(false);
   let image: JSX.Element;
   if (game.background_image) {
     image = (
@@ -83,8 +72,13 @@ const GameItem: React.FC<
       );
       history.push("/signin");
     } else {
-      startToggleCollection();
-      toggleCollection(game.slug, inCollection ? null : game);
+      setTogglingLike(true);
+      toggleCollection(
+        game.slug,
+        inCollection ? null : game,
+        type,
+        setTogglingLike
+      );
     }
   };
   return (
@@ -102,7 +96,7 @@ const GameItem: React.FC<
         <Link to={`/games/${game.slug}`} className="text-2xl font-semibold">
           {game.name}
         </Link>
-        {isToggling ? (
+        {togglingLike ? (
           <RiLoader3Fill className="text-3xl text-gray-600 duration-75 animate-spin dark:text-gray-100" />
         ) : (
           <div
