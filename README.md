@@ -6,7 +6,7 @@
 
 ## Features
 
-- Infinite loading.
+- Infinite loading/scrolling.
 - Dark mode enabled.
 - Full authentication system.
 - Users can add/remove their favorite games.
@@ -25,7 +25,7 @@ npm start
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-In order for the Authentication to work, make sure you created your own Firebase project and replace the firebase config.
+In order for the Authentication to work, make sure you create your own Firebase project and replace the firebase config.
 
 ## Built With
 

@@ -142,7 +142,7 @@ const Game: React.FC<
   ) => {
     if (!isUserLoaded) {
       toast.warning(
-        "🍉 Login to add game collection!",
+        "🍉 Login to add game to collection!",
         toastOption("top-center")
       );
       history.push("/signin");
